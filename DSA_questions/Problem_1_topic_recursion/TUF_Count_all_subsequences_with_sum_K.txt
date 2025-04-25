@@ -22,3 +22,60 @@ Constraints:
 1 <= nums[i] <= 100
 1 <= k <= 2000
 
+____________________________________
+Time and Space Complexity Analysis of Recursive Subsequence Sum Code
+--------------------------------------------------------------------
+
+Function:
+---------
+The recursive function funo tries all subsequences of the given array to find how many have a sum equal to the target 'k'. At each index, it explores two possibilities:
+- Include the current element.
+- Exclude the current element.
+
+Code:
+-----
+void funo(vector<int>& nums, int k, int i, int sum) {
+    if (i == nums.size()) {
+        if (sum == k) count++;
+        return;
+    }
+
+    funo(nums, k, i + 1, sum + nums[i]); // include nums[i]
+    funo(nums, k, i + 1, sum);           // exclude nums[i]
+}
+
+Time Complexity:
+----------------
+At each index 'i', the function makes two recursive calls: one for including nums[i], one for excluding it. So the total number of recursive calls grows exponentially.
+
+- For 'n' elements, the total number of calls is 2^n.
+- Each call does O(1) work (just parameter passing and condition checking).
+- Therefore, the total time complexity is:
+
+    O(2^n)
+
+Explanation:
+------------
+Each element in the array has two choices (include or exclude), leading to 2^n possible subsets. Every subset is checked once.
+
+Example:
+---------
+If nums = {4, 9, 2, 5, 1} → n = 5
+Total subsets = 2^5 = 32
+
+Space Complexity:
+-----------------
+The space complexity depends on the recursion call stack.
+
+- The maximum depth of the recursion tree is 'n' (we go from index 0 to index n).
+- No additional memory (like arrays or hash maps) is used.
+- Therefore, the space complexity is:
+
+    O(n)
+
+Summary:
+---------
+| Aspect         | Complexity |
+|----------------|------------|
+| Time           | O(2^n)     |
+| Space          | O(n)       |
