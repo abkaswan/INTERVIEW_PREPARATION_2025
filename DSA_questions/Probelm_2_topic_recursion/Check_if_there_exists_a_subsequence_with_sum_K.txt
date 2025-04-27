@@ -26,3 +26,31 @@ Constraints:
 1 <= target <= 2000.
 
 
+_____
+many efficient approaches that you can use based on need : 
+Pseudo-Polynomial 1D DP  
+Time: O(n·k)  
+Space: O(k)  
+
+Bitset-Accelerated DP  
+Time: O(n·(k/W)) where W is word‐size (e.g. 64)  
+Space: O(k/W) words  
+
+Meet-in-the-Middle  
+Time: O(2^(n/2))  
+Space: O(2^(n/2))  
+
+Fully Polynomial-Time Approximation Scheme (FPTAS)  
+Time: polynomial in n and 1/ε for a (1–ε)-approximation  
+Space: polynomial in n and 1/ε  
+
+Cutting-Edge Exact Algorithms  
+– Koiliaris & Xu (2015): O(k √n) deterministic  
+– Bringmann (2017): Õ(n + k) randomized  
+
+Recommendation by scenario:  
+• k ≤ 10^6, n up to a few thousand → Bitset DP  
+• k very small, n large → 1D DP  
+• n ≤ 40, k huge → Meet-in-the-Middle  
+• k huge, approximate OK → FPTAS  
+• Need fastest exact asymptotic → Koiliaris & Xu or Bringmann
