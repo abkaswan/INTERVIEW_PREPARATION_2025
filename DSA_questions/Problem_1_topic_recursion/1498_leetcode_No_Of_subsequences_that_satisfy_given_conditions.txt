@@ -32,3 +32,70 @@ Constraints:
 1 <= nums.length <= 105
 1 <= nums[i] <= 106
 1 <= target <= 106
+
+
+// standard approach : use recursion or backtracking . 
+
+// optimal apparoch : use two pointers and combitorial approach : 
+Explanation of the Two-Pointer + Precomputed Powers Solution
+------------------------------------------------------------
+
+1. Sort the input array in non-decreasing order.
+2. Precompute an array pow2 of length n+1:
+     • pow2[0] = 1  
+     • For i from 1 to n: pow2[i] = (2 * pow2[i−1]) mod 1e9+7  
+   This lets you get 2^(r−l) mod 1e9+7 in O(1) time.
+3. Initialize two pointers: l = 0, r = n−1.
+4. While l ≤ r:
+     • If nums[l] + nums[r] ≤ target, then there are pow2[r−l] valid subsequences that include nums[l] as the minimum and use any subset of the elements between l and r. Add pow2[r−l] to the result and increment l.
+     • Otherwise, decrement r to try a smaller maximum.
+5. At the end, take the result modulo 1e9+7.
+
+Time Complexity:
+  • O(n log n) for sorting  
+  • O(n) to precompute pow2 or O(nlogn) fast modular exponentiation function  
+  • O(n) for the two-pointer scan  
+  ⇒ Overall: O(n log n)
+
+Space Complexity: O(1)/O(n)
+  • O(n) extra space for the pow2 array if using precmoputed array 
+  • O(1) extra space for fast modular exponentiation function
+
+ALso 
+
+Here’s the key point:
+-->2^(r−ℓ) in the two-pointer solution does not count all subsequences of the array.
+-->It only counts the subsequences that include the element at index l (as the minimum) and whose maximum is at index r; 
+for those, you can freely choose any subset of the r−ℓ elements to the right of l.
+
+Total Subsequences vs. Window Subsets ------->
+1. All subsequences of an n-element array:
+    There are 2^(n) in total, because each element can be in or out.
+    For [3,5,6], that’s 2^(3) =8 subsequences (including the empty one).
+2. Subsequences counted by 2^(r−ℓ) in the two-pointer scan:
+    ->You fix a minimum at position l and a maximum at position r.
+    ->You must include nums[ℓ], and you must include nums[r] (or equivalently, ensure the largest chosen is at most r).
+    ->Every element between indices ℓ+1 through r can be either in or out—so you get 2^(r−ℓ) choices for that middle block
+
+
+One more thing for power you can use two methods , i will be using : fast modular exponentiation function because no extra space but you can use precomputed also :
+
+1. Precompute integer powers of two modulo MOD in an array pow2[] of size n+1:
+vector<int> pow2(n+1);
+pow2[0] = 1;
+for(int i = 1; i <= n; ++i)
+    pow2[i] = (pow2[i-1] * 2) % MOD;
+
+Then replace pow(2, r-l) with pow2[r-l]
+
+2. Alternatively, write a fast modular exponentiation function:
+long long modPow(long long base, long long exp) {
+    long long res = 1;
+    while (exp) {
+        if (exp & 1) res = (res * base) % MOD;
+        base = (base * base) % MOD;
+        exp >>= 1;
+    }
+    return res;
+}
+and use modPow(2, r-l) instead of pow(2, r-l)
