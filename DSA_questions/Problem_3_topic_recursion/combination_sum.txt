@@ -30,3 +30,60 @@ Constraints:
 2 <= candidates[i] <= 40
 All elements of candidates are distinct.
 1 <= target <= 40
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+recursive approach : 
+Time and Space Complexity Analysis for combinationSum()
+
+-------------------------------------------------------->
+Assume:
+- n = number of candidates
+- T = target sum
+-------------------------------------------------------->
+
+Time Complexity:
+----------------
+The function explores all possible combinations of numbers that sum up to the target.
+Each number can be picked multiple times (unbounded knapsack pattern).
+
+At each step, the function makes two recursive calls:
+1. Include the current element (stay at index i)
+2. Exclude the current element and move to index i + 1
+
+This leads to a binary tree of recursive calls.
+
+In the worst-case scenario (e.g., all elements are 1), the recursion tree could go as deep as T.
+So the time complexity is:
+
+    Time Complexity: O(2^T)
+
+Note: This is a rough upper bound. The actual number of recursive calls depends on the values of the candidates.
+
+-------------------------------------------------------->
+
+Space Complexity:
+-----------------
+There are two components to space usage:
+1. The recursion stack
+2. The space required to store the final result combinations
+
+1. Recursion stack:
+   - At most, T recursive calls are on the stack at any one time (in the worst case).
+   - So, stack space is O(T)
+
+2. Result storage:
+   - Let k be the number of valid combinations found.
+   - Let avgLen be the average number of elements in each combination.
+   - So, result storage takes O(k × avgLen) space.
+
+    Space Complexity: O(T + k × avgLen)
+
+-------------------------------------------------------->
+
+Summary:
+--------
+
+Time Complexity:   O(2^T)
+Space Complexity:  O(T + k × avgLen)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
