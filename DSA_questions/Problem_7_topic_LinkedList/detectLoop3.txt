@@ -1,0 +1,76 @@
+https://www.geeksforgeeks.org/problems/find-length-of-loop/1
+
+Given the head of a linked list, determine whether the list contains a loop. If a loop is present, return the number of nodes in the loop, otherwise return 0.
+
+Note: 'c' is the position of the node which is the next pointer of the last node of the linkedlist. If c is 0, then there is no loop.
+
+Examples:
+
+Input: head: 1 → 2 → 3 → 4 → 5, c = 2
+Output: 4
+Explanation: There exists a loop in the linked list and the length of the loop is 4.
+
+Input: head: 25 → 14 → 19 → 33 → 10 → 21 → 39 → 90 → 58 → 45, c = 4
+Output: 7
+Explanation: The loop is from 33 to 45. So length of loop is 33 → 10 → 21 → 39 → 90 → 58 → 45 = 7.
+The number 33 is connected to the last node of the linkedlist to form the loop because according to the input the 4th node from the beginning(1 based indexing) 
+will be connected to the last node in the LinkedList.
+
+Input: head: 0 → 1 → 2 → 3, c = 0
+Output: 0
+Explanation: There is no loop.
+
+Constraints:
+1 ≤ no. of nodes ≤ 106
+0 ≤ node.data ≤ 106
+0 ≤ c ≤ n-1
+
+expected complexities :
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+____________
+
+Summary:
+When detecting the start of a cycle in a singly linked list using Floyd’s Tortoise and Hare algorithm, the distance from the head of the list to the cycle entry point (x) equals the distance from the first meeting point inside the cycle back to that same entry point (z). By resetting one pointer to the head and moving both pointers one step at a time, they will meet exactly at the cycle’s start.
+
+Notation:
+x = number of nodes from head to cycle entry
+y = number of nodes from cycle entry to first meeting point
+z = number of nodes from first meeting point back to cycle entry
+c = cycle length = y + z
+
+Derivation:
+
+1. Let the slow pointer take i steps before the first meeting, so the fast pointer takes 2i steps.
+2. Slow’s path: i = x + y + p·c   (p full cycles)
+   Fast’s path: 2i = x + y + q·c  (q full cycles)
+3. Subtract: 2i − i = (x + y + q·c) − (x + y + p·c)
+   ⇒ i = (q − p)·c
+   Plug back: x + y + p·c = i = (q − p)·c
+   ⇒ x + y = (q − 2p)·c, so x + y is a multiple of c.
+4. Since z + y = c, it follows that x = z (mod c). Because x < c, x = z exactly.
+
+Algorithm to find cycle start:
+
+1. Initialize two pointers, slow and fast, at head.
+2. Move slow by one node and fast by two nodes until they meet inside the cycle.
+3. Reset slow to head, leave fast at meeting point.
+4. Move both slow and fast one node at a time. The node where they meet is the cycle’s entry.
+
+ASCII diagram:
+Head
+↓
+\[ x nodes ] → Entry → \[ y nodes ] → • Meet
+↑                    ↓
+←——— \[ z nodes ] ————
+
+Explanation:
+Phase 1: slow and fast meet at “•” after i steps.
+Phase 2: resetting slow to head and moving both one step at a time makes them travel x nodes each to arrive together at the Entry point.
+
+
+
+because there is a point of how many travel did the fast pointer did when they first met , q full cycles 
+and the same for slow pts , p full cycles , 
+that is why we can't use the travel done by fast and slow ptr as the length of the loop.
+
