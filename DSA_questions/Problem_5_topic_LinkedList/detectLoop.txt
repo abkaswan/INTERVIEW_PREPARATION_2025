@@ -37,7 +37,9 @@ pos is -1 or a valid index in the linked-list.
 
 Follow up: Can you solve it using O(1) (i.e. constant) memory?
 
-
+Brute force : 
+you can try using map and see if map.find(element)>1 then return true , map structure would be map<ListNode,int> 
+it will take O(N) TC but SC would also be O(N)
 ____________
 solution 1; 
 1. use slow and fast pointers -- floyd's cycle-finding algo // 2 pointers or slow-fast pointers approach \
