@@ -1,0 +1,70 @@
+https://leetcode.com/problems/binary-tree-postorder-traversal/description/
+
+145. Binary Tree Postorder Traversal
+
+Given the root of a binary tree, return the postorder traversal of its nodes' values.
+
+Example 1:
+
+Input: root = [1,null,2,3]
+
+Output: [3,2,1]
+
+Example 2:
+
+Input: root = [1,2,3,4,5,null,8,null,null,6,7,9]
+
+Output: [4,6,7,5,2,9,8,3,1]
+
+
+Example 3:
+
+Input: root = []
+
+Output: []
+
+Example 4:
+
+Input: root = [1]
+
+Output: [1]
+
+ 
+
+Constraints:
+
+The number of the nodes in the tree is in the range [0, 100].
+-100 <= Node.val <= 100
+ 
+
+Follow up: Recursive solution is trivial, could you do it iteratively?
+
+
+
+-->recursive approach : 
+Time complexity : O(n)
+Each node in the tree is visited exactly once during a post-order traversal, and we perform a constant amount of work (a few pointer checks and a single push to the vector) at each node .Thus, if there are n nodes, the total work is proportional to n×O(1) = O(n)
+
+Space complexity : O(n)
+| Component            | Space Complexity                           | Notes                                                       |
+| -------------------- | ------------------------------------------ | ----------------------------------------------------------- |
+| Output vector        | O(n)                                       | Stores all node values                                      |
+| Recursion call stack | O(h) = O(n) worst-case, O(log n) best-case | Depth of recursive calls equals tree height                 |
+| **Total**            | **O(n)**                                   | Dominated by the larger of the two—always ≤ O(n + n) = O(n) |
+
+
+-->iterative approach using two stacks : 
+so take first stack , 
+in the second stack save the reverse Postorder traversal and move it back to the stack1 .
+TC : O(n) and SC : O(n)
+
+-->iterative approach using one stack : 
+in this keep a pointer to check if we have visited the right side or not , if not visited we will visit that side and after visiting only we will pop the root element , because the rool is ( left, right and root )
+TC : O(n) and SC : O(n)
+
+why you need both parts in the loop condition (!s.empty() || curr), rather than just !s.empty():
+
+1. Ensuring the Traversal Starts
+Initial descent: On the very first iteration, the stack is empty and curr points at the root. If you wrote
+while (!s.empty()) { … }
+you’d never enter the loop only.
