@@ -1,0 +1,21 @@
+https://www.geeksforgeeks.org/problems/fruit-into-baskets-1663137462/1
+
+Find length of the longest subarray containing atmost two distinct integers
+
+Given an array arr[] containing positive elements, the task is to find the length of the longest subarray of an input array containing at most two distinct integers.
+
+Examples:
+
+Input: arr[]= [2, 1, 2]
+Output: 3
+Explanation: The entire array [2, 1, 2] contains at most two distinct integers (2 and 1). Hence, the length of the longest subarray is 3.
+Input: arr[] = [3, 1, 2, 2, 2, 2]
+Output: 5
+Explanation: The longest subarray containing at most two distinct integers is [1, 2, 2, 2, 2], which has a length of 5. The subarray starts at the second element 1 and ends at the last element. It contains at most two distinct integers (1 and 2).
+Constraints:
+1 ≤ arr.size() ≤ 105
+1 ≤ arr[i] <=105
+
+Expected Complexities:
+Time Complexity: O(n)
+Auxiliary Space: O(1)
