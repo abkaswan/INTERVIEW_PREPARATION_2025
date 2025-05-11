@@ -15,5 +15,5 @@ Constraints:
 1 <= arr[i] <= 105
 
 expected complexities  :
-Time Complexity: O(n log n)
+Time Complexity: O(n log n)  -- my solution takes merge -- O(n) and mergesort takes - O(logn)  ==> O(nlogn)
 Auxiliary Space: O(n)
