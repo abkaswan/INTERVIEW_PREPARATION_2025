@@ -1,0 +1,48 @@
+https://leetcode.com/problems/longest-repeating-character-replacement/description/
+424. Longest Repeating Character Replacement
+
+You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.
+
+Return the length of the longest substring containing the same letter you can get after performing the above operations.
+
+ 
+
+Example 1:
+
+Input: s = "ABAB", k = 2
+Output: 4
+Explanation: Replace the two 'A's with two 'B's or vice versa.
+Example 2:
+
+Input: s = "AABABBA", k = 1
+Output: 4
+Explanation: Replace the one 'A' in the middle with 'B' and form "AABBBBA".
+The substring "BBBB" has the longest repeating letters, which is 4.
+There may exists other ways to achieve this answer too.
+ 
+
+Constraints:
+
+1 <= s.length <= 105
+s consists of only uppercase English letters.
+0 <= k <= s.length
+
+
+
+____________________________________________________________________________________________________________________________________________
+Here’s the complexity for your sliding-window solution:
+
+1. Time Complexity : O(n), where n = s.length()
+  --> You move the right pointer `r` from 0 to n−1 once.
+  --> The left pointer `l` only moves forward, never resets, so over the entire run it also advances at most n steps.
+  --> All operations inside the loop—map updates, arithmetic, comparisons—are O(1) (amortized for the map, since the alphabet size is constant).
+Hence the overall is linear time.
+
+2. Space Complexity : O(1) extra space.
+  1. You use a `map<char,int>` (or you could use a fixed-size array of length 26).
+  2. regardless of n, the map/array holds at most one entry per letter in the alphabet (26 uppercase letters), which is a constant bound.
+So in big-O terms, it’s O(1) auxiliary space.
+
+Time:O(n)
+Space: O(1)
+
