@@ -1,0 +1,58 @@
+https://leetcode.com/problems/binary-tree-maximum-path-sum/description/
+
+124. Binary Tree Maximum Path Sum
+
+A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence at most once. Note that the path does not need to pass through the root.
+
+The path sum of a path is the sum of the node's values in the path.
+
+Given the root of a binary tree, return the maximum path sum of any non-empty path
+
+
+Example 1:
+
+
+Input: root = [1,2,3]
+Output: 6
+Explanation: The optimal path is 2 -> 1 -> 3 with a path sum of 2 + 1 + 3 = 6.
+Example 2:
+
+
+Input: root = [-10,9,20,null,null,15,7]
+Output: 42
+Explanation: The optimal path is 15 -> 20 -> 7 with a path sum of 15 + 20 + 7 = 42.
+ 
+
+Constraints:
+
+The number of nodes in the tree is in the range [1, 3 * 104].
+-1000 <= Node.val <= 1000
+
+___________________________________________________________________________
+it differes from diameter problem because : 
+what if there is another small branch which has weight like 1000 , 
+that might not be considered in diameter path because we are concerned about only length of the path. 
+here we are talking about sum of the path.
+
+___________________________________________________________________________
+
+Time Complexity
+You visit each node exactly once in a post-order DFS, doing only O(1) work per node (a handful of comparisons/additions).
+Hence, T(n) = O(n), where n is the number of nodes in the tree 
+
+.
+
+Space Complexity
+The extra space is dominated by the recursion stack, which at deepest goes as deep as the tree’s height h.
+Worst case (completely unbalanced/skewed tree): h = n ⇒ O(n)
+Best case (perfectly balanced tree): h ≈ log n ⇒ O(log n)
+Thus, S(n) = O(h), i.e. O(n) worst-case, O(log n) for a balanced tree
+
+___________________________________________________________________________
+Key takeaways
+-->Never return a “forked” path sum (both children) up the call stack—only a straight line.
+-->Always handle nullptr explicitly.
+-->Discard negative contributions when computing upward paths.
+
+these are there because i did it little differently , where i was returning root->val+leftSum+rightSum not the straight line like root->val+max(leftSum+rightSum)
+i was also not discarding values where the left or right branch might have negative branches in that case the mas path sum would be wrong.
