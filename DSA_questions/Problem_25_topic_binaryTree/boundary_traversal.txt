@@ -1,0 +1,89 @@
+https://www.geeksforgeeks.org/problems/boundary-traversal-of-binary-tree/1
+
+Tree Boundary Traversal
+
+Given a Binary Tree, find its Boundary Traversal. The traversal should be in the following order: 
+Left Boundary: This includes all the nodes on the path from the root to the leftmost leaf node. You must prefer the left child over the right child when traversing. Do not include leaf nodes in this section.
+Leaf Nodes: All leaf nodes, in left-to-right order, that are not part of the left or right boundary.
+Reverse Right Boundary: This includes all the nodes on the path from the rightmost leaf node to the root, traversed in reverse order. You must prefer the right child over the left child when traversing. Do not include the root in this section if it was already included in the left boundary.
+
+Note: If the root doesn't have a left subtree or right subtree, then the root itself is the left or right boundary. 
+
+Examples:
+Input: root[] = [1, 2, 3, 4, 5, 6, 7, N, N, 8, 9, N, N, N, N]
+Output: [1, 2, 4, 8, 9, 6, 7, 3]
+Explanation:
+
+Input: root[] = [1, 2, N, 4, 9, 6, 5, N, 3, N, N, N, N 7, 8]
+Output: [1, 2, 4, 6, 5, 7, 8]
+Explanation:
+As the root doesn't have a right subtree, the right boundary is not included in the traversal.
+
+Input: root[] = [1, N, 2, N, 3, N, 4, N, N] 
+    1
+     \
+      2
+       \
+        3
+         \
+          4
+Output: [1, 4, 3, 2]
+Explanation:
+Left boundary: [1] (as there is no left subtree)
+Leaf nodes: [4]
+Right boundary: [3, 2] (in reverse order)
+Final traversal: [1, 4, 3, 2]
+
+Constraints:
+1 ≤ number of nodes ≤ 105
+1 ≤ node->data ≤ 105
+
+Expected Complexities
+Time Complexity: O(n)
+Auxiliary Space: O(h)
+
+
+______
+m1 : do three traversals 
+
+Time Complexity: O(N) – each node is visited a constant number of times across the three traversals (left boundary, all leaves, right boundary), so proportional to the total number of nodes.
+
+Space Complexity: O(N) worst-case.
+Auxiliary (recursion) space: O(H), where H is the tree height (O(N) in the worst case of a skewed tree, O(log N) if balanced).
+Output storage: O(N) to hold the boundary node values.
+
+______
+m2 ; do one dfs traversal only 
+
+// using dfs : but only one traversal 
+    // lb : is left boundary and rb : is right boundary
+    // tc : O(n) and sc : O(n)
+    void dfs(Node* root,bool lb , bool rb, vector<int>&v,bool isFirstTime){
+        if(!root) return;
+        // for left boundary we are adding 
+        // using FirstTime we will be adding root node at the beginning always
+        if(lb || isFirstTime) v.push_back(root->data);
+        // for leaf nodes we are adding
+        else if(!root->left && !root->right) v.push_back(root->data);
+        dfs(root->left,lb,rb && !root->right,v,false);
+        dfs(root->right,lb && !root->left,rb,v,false);
+        // for right boundary we are adding but in reverse order ,
+        // extra lb is so that we don't add root node and the other is so that we don't count leaf nodes twice
+        if(rb && !isFirstTime && (root->left || root->right)) v.push_back(root->data);
+    }
+    vector<int> boundaryTraversal(Node *root) {
+        if(!root) return {};
+        vector<int> v;
+        bool leftB = !root->left?false:true;
+        bool rightB = !root->right?false:true;
+        // isFirstTime tells us if we called this function dfs for the first time and if yes then add the root in the beginnning only 
+        dfs(root,leftB,rightB,v,true);
+        return v;
+        
+    }
+
+
+____________
+m3 : use morris-style for O(1) extra space 
+
+morris - traversal is generally used for inorder traversal of binary tree . 
