@@ -1,0 +1,158 @@
+https://leetcode.com/problems/implement-stack-using-queues/description/
+
+225. Implement Stack using Queues
+
+Implement a last-in-first-out (LIFO) stack using only two queues. The implemented stack should support all the functions of a normal stack (push, top, pop, and empty).
+
+Implement the MyStack class:
+
+void push(int x) Pushes element x to the top of the stack.
+int pop() Removes the element on the top of the stack and returns it.
+int top() Returns the element on the top of the stack.
+boolean empty() Returns true if the stack is empty, false otherwise.
+Notes:
+
+You must use only standard operations of a queue, which means that only push to back, peek/pop from front, size and is empty operations are valid.
+Depending on your language, the queue may not be supported natively. You may simulate a queue using a list or deque (double-ended queue) as long as you use only a queue's standard operations.
+ 
+
+Example 1:
+
+Input
+["MyStack", "push", "push", "top", "pop", "empty"]
+[[], [1], [2], [], [], []]
+Output
+[null, null, null, 2, 2, false]
+
+Explanation
+MyStack myStack = new MyStack();
+myStack.push(1);
+myStack.push(2);
+myStack.top(); // return 2
+myStack.pop(); // return 2
+myStack.empty(); // return False
+ 
+
+Constraints:
+
+1 <= x <= 9
+At most 100 calls will be made to push, pop, top, and empty.
+All the calls to pop and top are valid.
+ 
+
+Follow-up: Can you implement the stack using only one queue?
+
+
+
+
+___________________________
+using two queues ; whatever you have done where push is O(n) and pop and other are O(1) are excellents but you can also do it like this : 
+
+#include <queue>
+using namespace std;
+
+class MyStack {
+private:
+    queue<int> q1;
+    queue<int> q2;
+
+public:
+    MyStack() {}
+
+    void push(int x) {
+        q1.push(x); // O(1)
+    }
+
+    int pop() {
+        // Move all but last element to q2
+        while (q1.size() > 1) {
+            q2.push(q1.front());
+            q1.pop();
+        }
+
+        // Last element is the "top" of the stack
+        int topElement = q1.front();
+        q1.pop();
+
+        // Swap queues
+        swap(q1, q2);
+
+        return topElement;
+    }
+
+    int top() {
+        // Same logic as pop, but we don't remove the last element
+        while (q1.size() > 1) {
+            q2.push(q1.front());
+            q1.pop();
+        }
+
+        int topElement = q1.front();
+
+        // Push it to q2 and remove from q1
+        q2.push(topElement);
+        q1.pop();
+
+        swap(q1, q2);
+
+        return topElement;
+    }
+
+    bool empty() {
+        return q1.empty();
+    }
+};
+
+| Operation | Time Complexity | Explanation                           |
+| --------- | --------------- | ------------------------------------- |
+| `push(x)` | **O(1)**        | Just enqueue to `q1`                  |
+| `pop()`   | **O(n)**        | Move `n-1` elements to `q2`, pop last |
+| `top()`   | **O(n)**        | Same as `pop()`, but push last back   |
+| `empty()` | **O(1)**        | Check `q1.empty()`                    |
+
+___________________________
+using one queue : you can do it like we have done where push operation takes a lot of time .
+
+or you can try below method where pop and top is more time consuming.
+// O(n):  one queue you are using so
+class MyStack {
+private : 
+    queue<int> q;
+public:
+    MyStack() {
+        
+    }
+    // tc : O(1)
+    void push(int x) {
+        q.push(x);
+    }
+    // tc : O(n)
+    int pop() {
+        int n = q.size();
+        while(n>1){
+            q.push(q.front());
+            q.pop();
+            n--;
+        }
+        int x = q.front();
+        q.pop();
+        return x;
+    }
+    // tc : O(n)
+    int top() {
+        int n = q.size();
+        while(n>1){
+            q.push(q.front());
+            q.pop();
+            n--;
+        }
+        int x = q.front();
+        q.pop();
+        q.push(x); // push it back at the time of top as we are not popping here.
+        return x;
+    }
+    // tc : O(1)
+    bool empty() {
+        return q.empty();
+    }
+};

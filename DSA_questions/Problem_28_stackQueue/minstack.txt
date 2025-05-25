@@ -1,0 +1,127 @@
+https://leetcode.com/problems/min-stack/description/
+155. Min Stack
+
+Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+
+Implement the MinStack class:
+
+MinStack() initializes the stack object.
+void push(int val) pushes the element val onto the stack.
+void pop() removes the element on the top of the stack.
+int top() gets the top element of the stack.
+int getMin() retrieves the minimum element in the stack.
+You must implement a solution with O(1) time complexity for each function.
+
+ 
+
+Example 1:
+
+Input
+["MinStack","push","push","push","getMin","pop","top","getMin"]
+[[],[-2],[0],[-3],[],[],[],[]]
+
+Output
+[null,null,null,null,-3,null,0,-2]
+
+Explanation
+MinStack minStack = new MinStack();
+minStack.push(-2);
+minStack.push(0);
+minStack.push(-3);
+minStack.getMin(); // return -3
+minStack.pop();
+minStack.top();    // return 0
+minStack.getMin(); // return -2
+ 
+
+Constraints:
+
+-231 <= val <= 231 - 1
+Methods pop, top and getMin operations will always be called on non-empty stacks.
+At most 3 * 104 calls will be made to push, pop, top, and getMin.
+
+
+______________________
+for solved method : 
+| Element     | Space Usage                                |
+| ----------- | ------------------------------------------ |
+| Stack Size  | **O(n)** for `n` elements                  |
+| Min Storage | **O(n)** because each value stores its min |
+so basically O(2n) overall but we can take it as O(n)
+
+| Operation  | Time Complexity | Space Complexity |
+| ---------- | --------------- | ---------------- |
+| `push(x)`  | O(1)            | O(1) per element |
+| `pop()`    | O(1)            | -                |
+| `top()`    | O(1)            | -                |
+| `getMin()` | O(1)            | -                |
+| `empty()`  | O(1)            | -                |
+| **Total**  | -               | **O(n)** overall |
+
+
+
+
+______________________
+method 2 : you can do it in O(1) tc and O(n) sc also instead of O(2n) sc
+
+class MinStack {
+private:
+    stack<long long> s;
+    long long mini = INT_MAX;
+public:
+    MinStack() {
+        
+    }
+    
+    void push(int value) {
+        // if the val is greater than mini push 
+        long long val = value;
+        if(s.empty()){
+            mini = val;
+            s.push(val);
+        }
+        else{
+            if(val>mini)
+                s.push(val);
+            else{
+                //push encoded value 
+                s.push(2*val*1LL-mini);
+                //update mini
+                mini = val;
+            }
+        }
+    }
+    
+    void pop() {
+        // now when popping if the value<mini then it is encoded right so get the previous mini using that 
+        // if(s.empty()) return;
+        long long el = s.top();
+        s.pop();
+        if(el<mini){
+            mini = 2*mini-el; //decode the value;
+        }
+    }
+    
+    int top() {
+        // if(s.empty()) return -1;
+        long long el = s.top();
+        if(el<mini){
+            return mini;
+        }
+        else{
+            return el;
+        }
+    }
+    
+    int getMin() {
+        return mini;
+    }
+};
+
+| Operation  | Time Complexity | Space Complexity |
+| ---------- | --------------- | ---------------- |
+| `push()`   | O(1)            | O(n) for stack   |
+| `pop()`    | O(1)            | O(n)             |
+| `top()`    | O(1)            | O(n)             |
+| `getMin()` | O(1)            | O(1)             |
+
