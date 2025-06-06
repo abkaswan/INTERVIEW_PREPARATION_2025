@@ -1,0 +1,124 @@
+https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/description/
+
+987. Vertical Order Traversal of a Binary Tree
+
+Given the root of a binary tree, calculate the vertical order traversal of the binary tree.
+
+For each node at position (row, col), its left and right children will be at positions (row + 1, col - 1) and (row + 1, col + 1) respectively. The root of the tree is at (0, 0).
+
+The vertical order traversal of a binary tree is a list of top-to-bottom orderings for each column index starting from the leftmost column and ending on the rightmost column. There may be multiple nodes in the same row and same column. In such a case, sort these nodes by their values.
+
+Return the vertical order traversal of the binary tree.
+
+ 
+
+Example 1:
+
+
+Input: root = [3,9,20,null,null,15,7]
+Output: [[9],[3,15],[20],[7]]
+Explanation:
+Column -1: Only node 9 is in this column.
+Column 0: Nodes 3 and 15 are in this column in that order from top to bottom.
+Column 1: Only node 20 is in this column.
+Column 2: Only node 7 is in this column.
+Example 2:
+
+
+Input: root = [1,2,3,4,5,6,7]
+Output: [[4],[2],[1,5,6],[3],[7]]
+Explanation:
+Column -2: Only node 4 is in this column.
+Column -1: Only node 2 is in this column.
+Column 0: Nodes 1, 5, and 6 are in this column.
+          1 is at the top, so it comes first.
+          5 and 6 are at the same position (2, 0), so we order them by their value, 5 before 6.
+Column 1: Only node 3 is in this column.
+Column 2: Only node 7 is in this column.
+Example 3:
+
+
+Input: root = [1,2,3,4,6,5,7]
+Output: [[4],[2],[1,5,6],[3],[7]]
+Explanation:
+This case is the exact same as example 2, but with nodes 5 and 6 swapped.
+Note that the solution remains the same since 5 and 6 are in the same location and should be ordered by their values.
+ 
+
+Constraints:
+
+The number of nodes in the tree is in the range [1, 1000].
+0 <= Node.val <= 1000
+
+
+______________________
+TIME complexity for the dfs recursive solution :::::::: O(NlogN)
+Let N be the number of nodes in the tree.
+1. DFS Traversal & Insertions into grid
+    We visit each node exactly once (that’s O(N) visits).
+    At each node, we do:
+    grid[y][x].insert(root->val);
+    which breaks down as:
+    1.    grid[y] is a map<int, …>, so looking up (or creating) the entry for key y costs O(logC), where C is the current number of distinct columns. In the worst case, C=O(N), so that’s O(logN).
+    2.    Given grid[y] is found, we then look up rowsMap[x] (another map<int, multiset<int>>). Again, that costs O(logR), where R is the number of distinct rows seen so far—again R=O(N) in the worst case. So that’s another O(logN).
+    3.    Finally, inserting into the multiset<int> for that (col=y,row=x) bucket costs O(logM), where M is the size of that particular multiset. In the absolute worst case all nodes could hash into one single (col,row), so M=O(N) again, giving O(logN).
+    Combining those three lookups/insertion costs at each of the N nodes gives
+    𝑁
+    ⏟        x  (O(logN)+O(logN)+O(logN))=O(NlogN).
+    visits
+  
+2. Flattening (for (auto& [col, rowsMap]: grid) { … })
+    After the DFS, grid holds exactly one entry in some multiset for each node (total of N values stored across all multisets).
+    Iterating over a map (both outer and inner) is O(number of keys+total elements in multisets). The outer loop visits each column key once; the inner loop visits each row key once; and the innermost loop (for (auto data : dataSet)) visits each stored node exactly once. Summing over everything is O(N).
+    Pushing each integer into the vector<int> w is O(1) per value, so overall this flattening is also O(N).
+Hence, the dominant term is the DFS+insertion cost, which is O(NlogN).
+​
+ 
+Space Complexity::::::: O(N)
+1. Storage of grid:
+        We store every node’s value exactly once in one of the multiset<int> buckets. So that alone uses O(N) space.
+        On top of that, there is overhead for up to O(N) keys in the outer map (columns) and up to O(N) keys in each inner map (rows). In total, the number of distinct (col,row) pairs is ≤ 𝑁 So grid’s structural overhead is also O(N).
+2. Recursion Stack:
+        The DFS recursion goes as deep as the height of the tree. In the worst case (a completely skewed tree) that height is O(N). In a balanced tree it would be O(logN). But worst‐case we must account for O(N) stack frames.
+3. Temporary Output Vector:
+    We build one vector<vector<int>> v whose total stored integers is again N. The outer vector has as many elements as there are distinct columns, but all inner vectors collectively hold N integers. That’s O(N) additional space.
+Putting everything together, the overall extra space (beyond the input tree) is O(N).
+​
+
+______________________
+
+Sure! Here's the explanation in a clean, copy-paste-friendly format for your notepad or `.txt` file:
+---
+BFS METHOD
+Time and Space Complexity for `verticalTraversalBFS
+---
+Time Complexity ::
+Let N be the number of nodes in the binary tree.
+1. Enqueue/Dequeue Each Node Once
+    Each node is enqueued and dequeued exactly once: `O(N)`.
+
+2. Insertion into Nested Maps and Multisets
+   -->Insertion happens in: `grid[col][row].insert(node->val)`
+     * Insertion into the outer `map<int, ...>` → `O(log N)`
+     * Insertion into the inner `map<int, multiset<int>>` → `O(log N)`
+     * Insertion into `multiset<int>` → `O(log N)`
+Total insertion cost per node: `O(log N)`
+Total across all nodes: `O(N log N)`
+
+3. Flattening the Grid into Result Vector
+   Iterate over each map and multiset, visit each node once: `O(N)`
+Total Time Complexity: O(N log N)
+
+---
+Space Complexity ::
+1. Grid Structure (`map<int, map<int, multiset<int>>>`)
+   * Each node's value is stored once: `O(N)`
+   * Number of distinct column and row keys across all nodes: also `O(N)`
+   * Total map + multiset space: `O(N)`
+2. BFS Queue
+   * Can hold up to `O(N)` nodes in the worst case
+3. Output Vector
+   * Stores all node values reorganized: `O(N)`
+4. No Recursion Stack
+   * Because it's BFS, there is no extra recursion stack cost
+Total Space Complexity: `O(N)`

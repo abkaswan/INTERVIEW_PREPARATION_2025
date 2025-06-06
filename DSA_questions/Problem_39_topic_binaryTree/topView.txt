@@ -1,0 +1,89 @@
+https://www.geeksforgeeks.org/problems/top-view-of-binary-tree/1
+
+Top View of Binary Tree
+
+You are given a binary tree, and your task is to return its top view. The top view of a binary tree is the set of nodes visible when the tree is viewed from the top.
+
+Note: 
+
+Return the nodes from the leftmost node to the rightmost node.
+If two nodes are at the same position (horizontal distance) and are outside the shadow of the tree, consider the leftmost node only. 
+Examples:
+
+Input: root[] = [1, 2, 3] 
+ 
+Output: [2, 1, 3]
+Input: root[] = [10, 20, 30, 40, 60, 90, 100]
+ 
+Output: [40, 20, 10, 30, 100]
+Explanation: The root 10 is visible.
+On the left, 40 is the leftmost node and visible, followed by 20.
+On the right, 30 and 100 are visible. Thus, the top view is 40 20 10 30 100.
+Input: root[] = [1, 2, 3, N, 4, N, N, N, 5, N, 6]
+       1
+     /   \
+    2     3
+     \   
+      4
+       \
+        5
+         \
+          6
+Output: [2, 1, 3, 6]
+Explanation: Node 1 is the root and visible.
+Node 2 is the left child and visible from the left side.
+Node 3 is the right child and visible from the right side.
+Nodes 4, 5, and 6 are vertically aligned, but only the lowest node 6 is visible from the top view. Thus, the top view is 2 1 3 6.
+Constraints:
+1 ≤ number of nodes ≤ 105
+1 ≤ node->data ≤ 105
+
+Expected Complexities
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+
+
+
+_________________________
+for dfs time and space complexity : 
+
+N = no of nodes in BT 
+H = height of BT 
+W = width of BT (number of unique horizontal distances / columns) and W<=N
+
+1. totalCols :  tc : O(N) ,,,,,,,,,,,,,,,,, sc : O(H) worst case O(N) avg case O(logN)
+2. dfs : tc -- accessing v[offset+col] and v[offset+col]={row,root->data} assignment is O(1) ,,,,,,,,,,,,,,,, sc: O(H) recursion stack same 
+    as totalCols , v is passed by reference so don't count it here
+3. topview : 
+    -->calling totalCols(root,maxi,mini,0) takes O(N) and O(H) tc and sc.
+     -->vector<pair<int,int>> v(totalCols,make_pair(INT_MAX,-1)) time : O(totalCol) or O(W) to intialize the vector. worst case W can be N. O(N) worst case , space : O(totalCol) or O(W) for storing the vector. worst case O(N) .
+     -->calling dfs(root,v,offset,0,0) takes O(N) and O(H) tc and sc.
+     -->for loop with W/totalCols : O(W)/ worst case : O(N) tc and O(W)/worst caseO(N)
+
+time complexity : O(N)
+space complexity : O(W+H) ~ O(N)
+
+or we might use hashmap here , like map<int, pair<int,int>> now we can use that if condition here also the same way but in one function only we will be able to do but the time compleixty would be O(NlogN) (avg case : O(N)) , sc : O(N) well but this is easier to understand and implement.
+
+| Method                  | Time Complexity                          | Space Complexity |
+| ---------------------| ----------------------------------- | ---------------- |
+| Your DFS + vector  | `O(N)`                                          | `O(N)`               |
+| Map-based DFS     | `O(N log C)` (≤ `O(N log N)`)       | `O(N)`               |
+| BFS (level-order)    | `O(N)`                                           | `O(N)`               |
+
+____________________________________________
+For BFS time and space complexity : 
+Time complexity:
+Each node is enqueued and dequeued exactly once → O(N).
+Each time you check or insert into unordered_map, it’s O(1) average.
+Building the final answer by scanning minCol..maxCol is O(C) where C ≤ N.
+⇒ Total = O(N).
+
+Space complexity:
+The BFS queue can hold up to O(N) pointers in the worst case.
+The unordered_map may store one entry per column, up to O(N) in the worst skewed‐tree scenario.
+The output vector is size O(N).
+⇒ Extra space = O(N).
+
+tc : O(N) and sc : O(N)
