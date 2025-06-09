@@ -1,0 +1,133 @@
+https://leetcode.com/problems/combination-sum-ii/description/
+
+40. Combination Sum II
+
+Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target.
+
+Each number in candidates may only be used once in the combination.
+
+Note: The solution set must not contain duplicate combinations.
+
+ 
+
+Example 1:
+
+Input: candidates = [10,1,2,7,6,1,5], target = 8
+Output: 
+[
+[1,1,6],
+[1,2,5],
+[1,7],
+[2,6]
+]
+Example 2:
+
+Input: candidates = [2,5,2,1,2], target = 5
+Output: 
+[
+[1,2,2],
+[5]
+]
+ 
+
+Constraints:
+
+1 <= candidates.length <= 100
+1 <= candidates[i] <= 50
+1 <= target <= 30
+
+
+
+
+_______________________________
+
+METHOD 1 using set : 
+
+Let:
+
+n be the number of elements in the input candidates vector.
+t be the target value.
+C be the total number of unique combinations that sum to t.
+L_max be the maximum possible length of a combination (in the worst case, L_max is n).
+L_avg be the average length of the C unique combinations.
+
+Time Complexity: O(n log n + 2^n * n²)
+This complexity arises from summing the costs of the three distinct phases of the algorithm:
+    Sorting: sort(candidates.begin(), candidates.end())
+    Cost: O(n log n). This is a standard, one-time upfront cost.
+    Recursion and Set Insertion: fun(...)
+        Recursive Calls: The function fun creates a decision tree by either including or excluding each element. This results in a tree with up to 2^n nodes, meaning there are O(2^n) recursive calls in the worst case.
+        Set Insertion Cost: This is the most critical part of the analysis. When a valid combination is found (sum == t), the code performs res.insert(v).
+            The cost of inserting a vector of length L into a std::set of size K is O(L * log K).
+            In the absolute worst-case scenario:
+                The length of the vector to be inserted (L) can be up to n.
+                The number of unique combinations (K) can be exponential, on the order of O(2^n).
+            Therefore, the log K term becomes log(2^n) = n * log(2), which is O(n).
+            Plugging these worst-case values back in, a single insertion can cost O(L * log K) = O(n * n) = O(n²).
+    Total Recursive Cost: While not every one of the 2^n paths results in an insertion, a rigorous upper bound considers the cost of traversing the 2^n paths and the maximum possible cost of work done within them. This gives a bound of O(2^n * n²).
+
+    Copying from Set to Vector:
+        This loop iterates through the C unique combinations stored in the set and copies them into the final vector.
+        Cost: O(C * L_avg).
+
+Overall Time Complexity:
+    The total time is O(n log n) + O(2^n * n²) + O(C * L_avg). The exponential term O(2^n * n²) is the asymptotically dominant factor.
+Therefore, the most accurate time complexity is O(2^n * n²).
+
+Space Complexity: O(n + C * L_avg) = exponential ,in the worst case C can be 2^n so it is exponential.
+    This represents the peak memory usage during the execution of the function.
+    Recursion Stack and Helper Vector:
+        The maximum depth of the recursive fun calls is n. This determines the space used by the call stack.
+        The helper vector v, which stores the combination being built, also grows to a maximum size proportional to the recursion depth.
+        Combined Cost: O(n).
+    Storage for Results (resi set):
+        The set stores all the unique combinations found. This is part of the auxiliary space required by this specific algorithm.
+        The space required is proportional to the total number of elements across all C unique combinations.
+        Cost: O(C * L_avg).
+
+    Overall Space Complexity:
+        The total space is the sum of the space for the recursion and the space for storing the unique combinations. Note that the final res vector, being the output, uses O(C * L_avg) space as well, but we typically analyze auxiliary space.
+        Therefore, the most accurate space complexity is O(n + C * L_avg). The n term accounts for the depth of the computation, and the C * L_avg term accounts for the breadth of the solution set.
+
+_______________________________
+
+method 2 : using for loop to avoid duplicates : 
+
+Time Complexity:
+
+- In the worst case (when the target is large enough to prevent pruning),
+  the algorithm explores all possible subsets of the n input elements.
+- The total number of subsets of n elements is 2^n.
+- At each recursive call, a loop runs from the current index to n-1,
+  which takes O(n) in the worst case.
+
+=> So, total time complexity is:
+   O(n * 2^n)
+
+Note:
+- The pruning condition:
+    if (sum + c[j] > target) break;
+  ensures that we stop exploring branches early.
+- The duplicate skipping condition:
+    if (j > i && c[j] == c[j - 1]) continue;
+  helps avoid recomputing the same combinations.
+- These help optimize the average case significantly,
+  but the worst-case complexity remains O(n * 2^n).
+
+--------------------------------------------------
+
+Space Complexity:
+
+- At any time, the recursion depth is at most n (i.e., the maximum length of a combination).
+- So, recursion stack and temporary vector `v` take O(n) space.
+
+=> So, space complexity is:
+   O(n)
+
+- If you include the space needed to store all the valid combinations
+  in the result (which is usually excluded in space complexity),
+  then in the worst case you could store up to 2^n combinations,
+  each up to length n.
+
+=> So, including output, space would be:
+   O(n * 2^n)

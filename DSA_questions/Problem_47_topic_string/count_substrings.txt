@@ -1,0 +1,30 @@
+https://www.geeksforgeeks.org/problems/count-substring/1
+
+Count Substring
+Given string s consisting only a,b,c. return the number of substrings containing at least one occurrence of all these characters a, b, and c.
+
+Example 1:
+
+Input:
+abcabc
+Output:
+10
+Explanation:
+The required substrings  are "abc", "abca", "abcab", "abcabc",
+"bca", "bcab", "bcabc", "cab", "cabc" and "abc".
+
+Example 2:
+
+Input:
+aaacb
+Output:
+3
+Your Task:
+You don't have to read input or print anything. Your task is to complete the function countSubstring() which takes the string s and returns the count of substring having at least a,b,c.
+
+Expected Time Complexity: O(n)
+Expected Space Complexity: O(1)
+
+Constraint:
+3<=s.length<=5 x 104  
+S only contains a,b,c.

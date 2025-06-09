@@ -35,55 +35,92 @@ All elements of candidates are distinct.
 recursive approach : 
 Time and Space Complexity Analysis for combinationSum()
 
--------------------------------------------------------->
-Assume:
-- n = number of candidates
-- T = target sum
--------------------------------------------------------->
+Given:
 
-Time Complexity:
-----------------
-The function explores all possible combinations of numbers that sum up to the target.
-Each number can be picked multiple times (unbounded knapsack pattern).
+* `n` = number of candidates (`candidates.size()`)
+* `T` = target sum (`target`)
+* `c_min` = smallest element in `candidates`
 
-At each step, the function makes two recursive calls:
-1. Include the current element (stay at index i)
-2. Exclude the current element and move to index i + 1
+1. Time Complexity:
 
-This leads to a binary tree of recursive calls.
+* Maximum recursion depth, h = T / c\_min.
+* At each recursive call there are two branches: include or exclude.
+* Rough number of calls grows like 2^h.
+* Each valid solution (leaf) may take O(h) to copy into the result list.
 
-In the worst-case scenario (e.g., all elements are 1), the recursion tree could go as deep as T.
-So the time complexity is:
+Overall:
 
-    Time Complexity: O(2^T)
+```
+Time = O(2^(T / c_min) * (T / c_min))
+```
 
-Note: This is a rough upper bound. The actual number of recursive calls depends on the values of the candidates.
+This is exponential in T / c\_min.
 
--------------------------------------------------------->
+2. Space Complexity:
 
-Space Complexity:
------------------
-There are two components to space usage:
-1. The recursion stack
-2. The space required to store the final result combinations
+* Auxiliary (call stack + working vector): O(h) = O(T / c\_min).
+* Output storage (result list of all combinations): if K = number of solutions, storing them takes O(K \* h).
 
-1. Recursion stack:
-   - At most, T recursive calls are on the stack at any one time (in the worst case).
-   - So, stack space is O(T)
+Overall auxiliary space (excluding output):
 
-2. Result storage:
-   - Let k be the number of valid combinations found.
-   - Let avgLen be the average number of elements in each combination.
-   - So, result storage takes O(k × avgLen) space.
+```
+Space_aux = O(T / c_min)
+```
 
-    Space Complexity: O(T + k × avgLen)
+Including output:
 
--------------------------------------------------------->
+```
+Space_total = O(K * (T / c_min))
+```
 
-Summary:
---------
 
-Time Complexity:   O(2^T)
-Space Complexity:  O(T + k × avgLen)
+_______
+think about what if we only do the include and exclude and move forward the index everytime it will be something liek this : 
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+If you change your recursion so that **both** the “include” and the “exclude” branches advance the index, then:
+
+1. **Recursion depth** is at most `n` (since each call does `i+1`).
+2. **Branching factor** is 2 at every level (include-or-exclude).
+
+---
+
+### Tree size
+
+A full binary tree of height `n` has about
+
+$$
+  \sum_{k=0}^{n} 2^k \;=\; 2^{n+1}-1 \;=\; O(2^n)
+$$
+
+nodes (i.e. recursive calls).
+
+---
+
+### Time complexity
+
+* **Checking / arithmetic work** at each call is O(1).
+* When you hit `sum == target`, you copy the current vector `v` of length ≤ n in O(n).
+* In the absolute worst case (no pruning by `sum >= target`), you could reach all 2ⁿ leaves and copy at each leaf, giving
+
+  $$
+    O\bigl(2^n \times n\bigr).
+  $$
+* If you ignore the cost of copying the solution into `res`, the bare number of calls is O(2ⁿ).
+
+So you can say:
+
+> **Time:** O(2ⁿ)
+> **Time (including vector‐copying):** O(2ⁿ · n)
+
+---
+
+### Space complexity
+
+* **Auxiliary (call stack + working vector):** O(n)
+* **Total (including stored results):** O(K·n), where K is the number of valid combinations found.
+
+---
+
+**Bottom line:** by moving the index forward in both branches you reduce the “depth” contribution from T/cₘᵢₙ down to n, but the algorithm remains exponential—O(2ⁿ) in the number of candidates.
+
+so time and space is kinda similarly we are exploring in both of them right ?
