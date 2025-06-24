@@ -1,0 +1,94 @@
+https://leetcode.com/problems/maximum-subarray/
+
+53. Maximum Subarray
+
+Given an integer array nums, find the subarray with the largest sum, and return its sum.
+
+ 
+
+Example 1:
+
+Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+Output: 6
+Explanation: The subarray [4,-1,2,1] has the largest sum 6.
+Example 2:
+
+Input: nums = [1]
+Output: 1
+Explanation: The subarray [1] has the largest sum 1.
+Example 3:
+
+Input: nums = [5,4,-1,7,8]
+Output: 23
+Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
+ 
+
+Constraints:
+
+1 <= nums.length <= 105
+-104 <= nums[i] <= 104
+ 
+
+Follow up: If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more subtle.
+
+________________________________________________________________
+
+Below  is how you can get the actual subarray from there also : 
+you need to track the start and end points right , 
+-->Everytime we change using currSum = max(nums[i],nums[i]+currSum) here the index i could be the potential new starting point if we end up taking only nums[i] right ?
+so save it 
+-->IMP : we don't directly declare it and use again in the next step because currSum will keep changing but it matters when it will override maxSum right ? so when it does there also we need to keep updaint the starting point
+
+-->after that , when we do maxSum = max(currSum,maxSum) same thing , if we change it to currSum as that is the max , then there is a chance that where it started could be our final maxSubArray starting point , so use the earlier starting point that you keep saving , update the final SP. 
+--> and also it could be that where it is ending like current , could be the ending point so save it also 
+
+-->now you have start,end so get the subarray by for loop , STL lib or something good luck 
+tc : O(n) sc : O(1)
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+pair<int, vector<int>> kadaneWithSubarray(vector<int>& nums) {
+    int n = nums.size();
+    
+    int maxSum = nums[0];
+    int curSum = nums[0];
+    
+    int start = 0, end = 0;     // final answer range
+    int tempStart = 0;          // start index for current subarray
+
+    for (int i = 1; i < n; ++i) {
+        if (nums[i] > curSum + nums[i]) {
+            // Start a new subarray at i
+            curSum = nums[i];
+            tempStart = i;
+        } else {
+            // Extend the current subarray
+            curSum += nums[i];
+        }
+
+        if (curSum > maxSum) {
+            maxSum = curSum;
+            start = tempStart;
+            end = i;
+        }
+    }
+
+    // Collect the actual subarray
+    vector<int> subarray(nums.begin() + start, nums.begin() + end + 1);
+    return {maxSum, subarray};
+}
+
+int main() {
+    vector<int> nums = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+
+    auto [maxSum, subarray] = kadaneWithSubarray(nums);
+
+    cout << "Maximum subarray sum: " << maxSum << endl;
+    cout << "Subarray: ";
+    for (int x : subarray) cout << x << " ";
+    cout << endl;
+
+    return 0;
+}
