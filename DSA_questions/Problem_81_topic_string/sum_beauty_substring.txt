@@ -1,0 +1,67 @@
+https://leetcode.com/problems/sum-of-beauty-of-all-substrings/description/
+
+1781. Sum of Beauty of All Substrings
+
+
+The beauty of a string is the difference in frequencies between the most frequent and least frequent characters.
+
+    For example, the beauty of "abaacc" is 3 - 1 = 2.
+
+Given a string s, return the sum of beauty of all of its substrings.
+
+ 
+
+Example 1:
+
+Input: s = "aabcb"
+Output: 5
+Explanation: The substrings with non-zero beauty are ["aab","aabc","aabcb","abcb","bcb"], each with beauty equal to 1.
+
+Example 2:
+
+Input: s = "aabcbaa"
+Output: 17
+
+ 
+
+Constraints:
+
+    1 <= s.length <= 500
+    s consists of only lowercase English letters.
+
+
+
+________
+
+a slightly more optimised solution  : 
+
+class Solution {
+public:
+    int beautySum(string s) {
+        int n = s.size(), sum = 0;
+        for (int i = 0; i < n; i++) {
+            vector<int> freq(26, 0);
+            map<int,int> freqCount;
+            for (int j = i; j < n; j++) {
+                int c = s[j] - 'a';
+                if (freq[c] > 0) {
+                    if (--freqCount[freq[c]] == 0)
+                        freqCount.erase(freq[c]);
+                }
+                freq[c]++;
+                freqCount[freq[c]]++;
+                
+                int mini = freqCount.begin()->first;
+                int maxi = freqCount.rbegin()->first;
+                sum += (maxi - mini);
+            }
+        }
+        return sum;
+    }
+};
+
+// instead of scanning all 26 letters each time, you just:Update the map<int, int> — constant number of operations per character.
+// Read the first and last keys for min and max in O(log 26) ≈ constant time.
+
+// time complexity : O(n²) still but reduces constant time which was 26*n2 to log26*n2
+// space complexity : O(1)
