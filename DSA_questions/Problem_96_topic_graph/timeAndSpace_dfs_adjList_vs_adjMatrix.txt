@@ -1,0 +1,58 @@
+for adj list we use below code : 
+
+void dfs(int i, vector<int>& visited, vector<vector<int>>& adjList) {
+    visited[i] = 1;  // O(1) time
+    for (int neighbor : adjList[i]) {  // O(deg(i)) per node
+        if (!visited[neighbor]) {
+            dfs(neighbor, visited, adjList);  // Recursive call
+        }
+    }
+}
+
+Time Complexity Analysis :
+    Per Node: The loop runs deg(i) times (number of neighbors).
+        Only actual edges are processed.
+        Best-case (sparse graph): deg(i) << n (e.g., tree: deg(i) ~ constant).
+        Worst-case (dense graph): deg(i) = n (complete graph).
+
+    Total for DFS:
+        Sum of all degrees = 2m (each edge processed twice in undirected graphs).
+        Total operations = O(n + m).
+
+Space Complexity :
+    Adjacency list storage: O(n + m)
+    visited array: O(n)
+    Recursion stack: O(n)
+    Total: O(n + m)
+
+__________________________________________________________________
+
+for adj matrix we use this code : 
+void dfs(int i, vector<int>& visited, vector<vector<int>>& isConnected) {
+    int n = isConnected.size();
+    visited[i] = 1;  // O(1) time
+
+    for (int j = 0; j < n; j++) {  // Θ(n) per node, regardless of neighbors
+        if (isConnected[i][j] == 1 && !visited[j]) {
+            dfs(j, visited, isConnected);  // Recursive call
+        }
+    }
+}
+
+Time Complexity Analysis:
+    Per Node: The loop always runs n times (full row scan).
+        Even if node i has only 1 neighbor, it still checks all n columns.
+        Best-case (sparse graph): Still Θ(n) per node.
+        Worst-case (dense graph): Θ(n) per node.
+
+    Total for DFS:
+        Each of the n nodes is visited exactly once.
+        Total operations = n nodes × n checks = Θ(n²).
+
+Space Complexity:
+    visited array: O(n)
+    Recursion stack depth: O(n) (worst-case linear chain)
+    Total: O(n)
+
+__________________________________________________________________
+for adj list it is O(n+M) but this is O(n^2) for adj matrix , it is because we are doing O(deg(i)*n) = sumOf(deg(i)*n) = O(n+m) and for O(n^2) it is always O(n^2) because for loop runs everytime so time complexity : (for loop time complexiy) * (dfs recursion time complexity) = O(n)*O(n) = O(n^2)
