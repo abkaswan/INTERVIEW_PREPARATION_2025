@@ -1,0 +1,83 @@
+https://www.geeksforgeeks.org/problems/longest-prefix-suffix2527/1
+Longest Prefix Suffix
+
+Given a string s, of lowercase english alphabets, find the length of the longest proper prefix which is also a suffix.
+Note: Prefix and suffix can be overlapping but they should not be equal to the entire string.
+
+Examples :
+
+Input: s = "abab"
+Output: 2
+Explanation: The string "ab" is the longest prefix and suffix. 
+
+Input: s = "aabcdaabc"
+Output: 4
+Explanation: The string "aabc" is the longest prefix and suffix.
+
+Input: s = "aaaa"
+Output: 3
+Explanation: "aaa" is the longest prefix and suffix. 
+
+Constraints:
+1 ≤ s.size() ≤ 106
+s contains only lowercase English alphabets.
+Expected Complexities
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+
+______________________________EXPLANATION ON HOW TO DO IT_____________________________________________________
+
+https://youtu.be/sODA1BzFvsE?si=ARrT7Wo4kyesmz0V 
+use this youtube video to understand more about the longest prefix suffix , he explains lps table in detail 
+and for the O(n) time and O(n) space you can do from it 
+
+but how to do it in O(1)  , use double hashing for this one , explanation is below.
+
+______________________________EXPLANATION on how the optimsied method works____________________________________
+
+We are trying to check if the prefix and suffix of a string are the same
+using polynomial rolling hash.
+
+1. Hash function basics
+   - We treat the string like a polynomial:
+        h(s) = (s[0]*p^0 + s[1]*p^1 + s[2]*p^2 + ... + s[n-1]*p^(n-1)) % mod
+   - Each character s[i] contributes its ASCII value (or rank in alphabet)
+     multiplied by a power of a base p.
+
+2. Building prefix hash
+   - Start from left → right
+   - hash_prefix = (hash_prefix + (s[i]-'a'+1) * p^i) % mod
+   - This gives us the polynomial form: s[0]*p^0 + s[1]*p^1 + ...
+
+3. Building suffix hash
+   - Start from right → left
+   - hash_suffix = (hash_suffix * p + (s[i]-'a'+1)) % mod
+   - Why different formula?
+       Because we are adding characters at the "end" of the polynomial,
+       so instead of multiplying by a power directly, we shift the whole
+       hash left by multiplying with p, then add the new character.
+   - After processing, suffix hash looks like:
+        s[n-1]*p^0 + s[n-2]*p^1 + ... + s[0]*p^(n-1)
+
+4. Why do prefix and suffix match when their hashes match?
+   - Suppose we check prefix of length L and suffix of length L.
+   - Both are represented as polynomials of length L.
+   - If prefix_hash(L) == suffix_hash(L), then with high probability
+     (depending on choice of base and mod), the two substrings are equal.
+   - To reduce probability of collision, people often use double hashing
+     (two different bases and mods).
+
+5. Example (single hash, base=31, mod=1e9+7)
+   String = "ababa"
+   - Prefix length 3 ("aba"):
+       hash_prefix = 'a'*p^0 + 'b'*p^1 + 'a'*p^2
+   - Suffix length 3 ("aba"):
+       hash_suffix = 'a'*p^0 + 'b'*p^1 + 'a'*p^2
+   - Both evaluate to the same number → prefix == suffix.
+
+This is why the formulas look different:
+- Prefix builds left to right with direct powers.
+- Suffix builds right to left by multiplying the existing hash by base
+  (shifting powers) and adding the new character.
+Both representations end up in the same polynomial structure, just built
+in different directions.

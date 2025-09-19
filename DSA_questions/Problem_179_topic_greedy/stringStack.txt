@@ -1,0 +1,106 @@
+https://www.geeksforgeeks.org/problems/string-stack--165812/1
+String stack
+
+You are given two strings pat and tar consisting of lowercase English characters. You can construct a new string s by performing any one of the following operation for each character in pat:
+
+    Append the character pat[i] to the string s.
+    Delete the last character of s (if s is empty do nothing).
+
+After performing operations on every character of pat exactly once, your goal is to determine if it is possible to make the string s equal to string tar.
+
+Examples:
+
+Input: pat = "geuaek", tar = "geek"
+Output: true
+Explanation: Append the first three characters of pat to s, resulting in s = "geu". Delete the last character for 'a', leaving s = "ge". Then, append the last two characters 'e' and 'k' from pat to s, resulting in s = "geek", which matches tar.
+
+Input: pat = "agiffghd", tar = "gfg"
+Output: true
+Explanation: Skip the first character 'a' in pat. Append 'g' and 'i' to s, resulting in s = "gi". Delete the last character for 'f', leaving s = "g". Append 'f', 'g', and 'h' to s, resulting in s = "gfgh". Finally, delete the last character for 'd', leaving s = "gfg", which matches tar.
+
+Input: pat = "ufahs", tar = "aus"
+Output: false
+Explanation: It is impossible to construct the string tar from pat with the given operations.
+
+Constraints:
+1 ≤ pat.size(), tar.size() ≤ 105
+Expected Complexities
+Time Complexity: O(n + m)
+Auxiliary Space: O(1)
+
+_____________some doubts i had about the greedy algorithm_______________-
+
+Q1 : If pat[i]'s operation is Delete, why do we assume pat[i-1]'s operation was Append? Couldn't it also be a Delete?
+    Let's think about the rules. A Delete operation can only happen if the string s is not empty. It's impossible to have a Delete without a prior Append somewhere. A Delete needs a partner.
+    Let's analyze your scenario where you have two Deletes in a row.
+
+    -->Imagine pat ends in ...abcd. We are trying to build our target string tar.
+    -->Let's assume the operations for c and d were both Delete.
+
+    -->Operation for d (the last one): It's a Delete. This means it must have removed some character. Where did that character come from? It must have been Appended by an earlier operation (e.g., from b).
+    -->Operation for c: It's also a Delete. This means it must have removed some character. Where did that character come from? It must have been Appended by an even earlier operation (e.g., from a).
+    So, for your scenario to be true, you must have a structure like this:
+
+        Op for a: Append 'a'
+        Op for b: Append 'b'
+        Op for c: Delete (removes 'b')
+        Op for d: Delete (removes 'a')
+
+Now look at what happened:
+    The Append 'b' and Delete 'c' formed a canceling pair. They happened right after each other.
+    The Append 'a' and Delete 'd' also formed a pair, but they were separated by the b/c pair.
+
+Here's Why The Backward Algorithm Is So Smart
+The backward algorithm doesn't need to figure out this complex nesting. It correctly peels off these pairs from the outside in.
+Let's trace the algorithm on that pat = "...abcd" while trying to match a tar that ends in, say, ...k.
+
+Step 1: Comparing d and k
+    i points to d. j points to k. They do not match.
+    The algorithm's logic says: d was not used to make the final k. So, the operation for d must have been a Delete. A Delete operation always forms a canceling pair with the Append operation that happened immediately before it.
+    The operation immediately before d was the one for c.
+    The algorithm makes a safe, greedy choice: It assumes Op('c') was Append and Op('d') was Delete. It concludes they canceled each other out.
+    The Move: It does i -= 2, completely ignoring both c and d.
+
+Step 2: Comparing b and k
+    Now, i points to b. j still points to k. They do not match.
+    The algorithm applies the exact same logic: b was not used to make k. So Op('b') must have been a Delete that canceled out the operation for its neighbor, a.
+    The Move: It does i -= 2, completely ignoring both a and b. 
+    The algorithm correctly concludes that the entire sequence abcd had a net-zero effect on the final string. It correctly identifies the canceling pairs without ever needing to know the real sequence of operations.
+The core idea is this: If pat[i] wasn't the character we needed at the end, its only possible role was to be the second half of a "do-nothing" pair. The first half of that pair had to be its immediate predecessor, pat[i-1]. There is no other operation happening between them that could get in the way.
+
+
+_____________
+
+Q2 : what if we are skipping something that could have matched with the tar[j]
+
+That is the perfect question. It gets to the absolute heart of why this greedy algorithm is correct. It feels wrong to skip a potential match, so let's prove why it's actually the only safe thing to do.
+Let's set up the exact "danger scenario" you're worried about.
+
+    Our target tar ends in 'g'. (tar = "...g")
+    Our pattern pat ends in 'x', but the character right before it is the 'g' we think we need. (pat = "...gx")
+So we have:
+    i is pointing to pat's 'x'
+    j is pointing to tar's 'g'
+The algorithm does the following:
+    It compares pat[i] ('x') with tar[j] ('g').
+    They don't match.
+    The rule says: i -= 2. This skips both 'x' and 'g'.
+
+Your fear is that we just wrongly skipped the 'g' that we needed for the match. Let's prove why that 'g' could never have been used.
+The Proof: Why the Skipped 'g' is Unusable
+    Let's assume the algorithm is wrong and we try to use the 'g' from pat to make the final 'g' in tar. What would the operations have to be?
+    The operations are sequential. The operation for 'g' happens, and then immediately after, the operation for 'x' happens.
+    Operation for pat's 'g': To use it, we must Append it.
+    Let's say our string s was ... before this. After this operation, s is now "...g".
+    
+    Operation for pat's 'x': Now it's x's turn. This is the very last operation to be performed. We have two choices for what to do:
+        Choice A: Append 'x'. The final string s would become "...gx". This is WRONG. Our target ends in 'g', not 'x'.
+        Choice B: Delete. The Delete operation removes the last character of s. Right now, the last character of s is 'g'. So, s becomes ... again. This is also WRONG. Our target needs to end in 'g'.
+This is the crucial point. There is no possible operation for pat[i] ('x') that allows the 'g' from pat[i-1] to survive as the final character.
+
+The character at pat[i] acts like a "poison pill" for the character at pat[i-1]. If pat[i] doesn't match the target, it forces a situation where pat[i-1] cannot be the final character either.
+    If Op(pat[i]) is Append, it tacks on the wrong character.
+    If Op(pat[i]) is Delete, it erases the character from pat[i-1].
+In both cases, you fail.
+Therefore, the only logical conclusion is that the 'g' at pat[i-1] and the 'x' at pat[i] must have formed a "do-nothing" pair. The only way to do that is if Op('g') was Append and Op('x') was Delete. They canceled each other out to have zero effect on the final string.
+The algorithm's decision to skip them both (i -= 2) is not a risky guess; it is the only correct deduction based on the rules. It correctly identifies that this pair of characters is unusable for forming the end of the target string.

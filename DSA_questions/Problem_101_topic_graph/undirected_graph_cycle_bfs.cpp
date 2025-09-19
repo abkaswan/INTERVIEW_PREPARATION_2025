@@ -4,8 +4,8 @@
 using namespace std;
 class Solution {
   public:
-    // time complexity : 
-    // space complexity : 
+    // time complexity : O(V+E) = we are going through each node and then each edge throughout like O(V*deg(i)) = O(V+E)
+    // space complexity : O(V) for visited array and O(V) for queue in worst case+ `O(V+E)` for adjacency list = O(V+E)
     bool bfs(int node,int parent, vector<int>&visited, vector<vector<int>>& adj){
         // same way we always do bfs just add the condition where parent!=neighbour
         queue<pair<int,int>> q;

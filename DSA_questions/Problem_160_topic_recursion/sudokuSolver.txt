@@ -1,0 +1,94 @@
+https://leetcode.com/problems/sudoku-solver/description/?envType=daily-question&envId=2025-08-31
+37. Sudoku Solver
+
+Write a program to solve a Sudoku puzzle by filling the empty cells.
+
+A sudoku solution must satisfy all of the following rules:
+
+    Each of the digits 1-9 must occur exactly once in each row.
+    Each of the digits 1-9 must occur exactly once in each column.
+    Each of the digits 1-9 must occur exactly once in each of the 9 3x3 sub-boxes of the grid.
+
+The '.' character indicates empty cells.
+
+ 
+
+Example 1:
+
+Input: board = [["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]]
+Output: [["5","3","4","6","7","8","9","1","2"],["6","7","2","1","9","5","3","4","8"],["1","9","8","3","4","2","5","6","7"],["8","5","9","7","6","1","4","2","3"],["4","2","6","8","5","3","7","9","1"],["7","1","3","9","2","4","8","5","6"],["9","6","1","5","3","7","2","8","4"],["2","8","7","4","1","9","6","3","5"],["3","4","5","2","8","6","1","7","9"]]
+Explanation: The input board is shown above and the only valid solution is shown below:
+
+
+ 
+
+Constraints:
+
+    board.length == 9
+    board[i].length == 9
+    board[i][j] is a digit or '.'.
+    It is guaranteed that the input board has only one solution.
+
+
+
+_______
+if it was generalized this would have been the time and space complexity for this : 
+
+Notation / assumptions
+----------------------
+Let N = board side length (so the board is N × N).
+Assume sub-boxes are √N × √N (so N is a perfect square, like 9 = 3²).
+Let E = number of empty cells (in the worst case E = N²).
+
+Worst-case time complexity
+--------------------------
+Your algorithm is plain backtracking with N possible symbols per empty cell and,
+for each attempted symbol, you call isValid which scans the row, column and box
+in O(N) time.
+
+- Branching factor ≈ N (you may try up to N symbols at a cell).
+- Maximum recursion depth ≤ E (≤ N²).
+- Number of nodes in the recursion tree in the worst case is about
+  1 + N + N^2 + ... + N^E = O(N^E) = O(N^(N²)).
+- Each node does O(N) work for the isValid checks.
+
+So a tight worst-case bound for the code you posted is:
+
+Time = O(N · N^(N²)) = O(N^(N²+1)).
+
+Because polynomial factors don’t matter much compared to this tower,
+people often simplify that to:
+
+Time = exponential, roughly O(N^(N²)).
+
+(If you count just placements and ignore the O(N) cost of isValid,
+you get O(N^(N²)).)
+
+For the actual 9×9 case this bound is astronomically large (~9^81 nodes
+in the worst case), but practical Sudoku instances are tiny compared to
+the worst theoretical bound because constraints prune the tree heavily.
+
+Space complexity
+----------------
+- The board itself is O(N²) (stored in place).
+- Recursion stack depth ≤ E (≤ N²), so recursion space O(N²).
+- If you keep no extra large structures, total extra space is O(N²).
+
+So Space = O(N²).
+
+If you optimize isValid (typical improvement)
+---------------------------------------------
+A common and important optimization is to maintain three lookup structures:
+
+- row[i][val] boolean,
+- col[j][val] boolean,
+- box[b][val] boolean,
+
+so checking whether a value is allowed is O(1) instead of O(N) and
+you update these structures on place / remove.
+
+With that change:
+- Cost per node becomes O(1),
+- Number of nodes still ≤ O(N^(N²)).
+
+So Time ≈ O(N^(N²)) and Space = O(N²) (the lookups add O(N²) booleans).
