@@ -171,4 +171,8 @@ REACT ROUTER : read documentaion for react-router if you want more knowledge
 --> this is a single page application (SPA) => we only have one html file and we use react to create multiple pages 
 --> shortcuts with react router : 
     1. insted of path="/" we can use index both are same
-    2. 
+
+--> shared components we usually put in a folder called components and in pages we will keep all the pages we are using for our website
+--> usually Link elements <a> reload the page if we go to another page using those , this made sense if we had multiple html compnents like earlier but now we are using react and only one index.html we are using , we can use javascript to do this and use <Link> instead of <a>
+    so when using react-router we should use <Link> instead of <a> , it go to another page without reloading
+
