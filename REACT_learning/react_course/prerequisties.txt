@@ -186,6 +186,8 @@ lesson 7 : backend , data fetching , async await
 backend : 
 -->manages the data
 -->shares data between computers
+-->backend can also run on the smae computer as the frontend(this is what we are doing right now on localhost) but once it is on the internet it will be another computer most likely
+
 examples and explanations => 
 so a real life ecommerce website might have hundreds of thousands of products and it doesn't make sense to have it in our computer/or client's computer , might not have enough space also 
 company's computer -- saves all products, when we visit the site this computer sends ony the product we need , this computer which company uses is called backend and bakend manages all the data.

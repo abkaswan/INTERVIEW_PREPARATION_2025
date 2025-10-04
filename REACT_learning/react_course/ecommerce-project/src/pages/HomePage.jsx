@@ -3,6 +3,26 @@ import { products } from "../../starting-code/data/products.js";
 import "./HomePage.css";
 import CheckmarkIcon from "../assets/images/icons/checkmark.png";
 export function HomePage() {
+
+  // asynchronous code = code that doesn't finish right away, below line is an example of asynchronous code
+  // fetch() returns a promise, promise = lets us wait for asynchronous code to finish , so we use method of promise called .then() which runs a function when the asynchronous code is done
+  // fetch('http://localhost:3000/api/products')
+  //   .then((response)=>{
+  //     response.json().then((data)=>{
+  //       console.log(data);
+  //     }); // resopnse.json() gives us the data that is attached to the response , now response.json() is also asynchronous code => a promise , so need to use another .then() to get the data
+  //   })
+
+  // now instead of doing nested .then() we can use return response.json() and chain another .then() to the first .then() , this is called promise chaining
+  fetch('http://localhost:3000/api/products')
+    .then((response)=>{
+      return response.json()
+    })
+    .then((data)=>{
+      console.log(data);
+    });
+  
+  
   return (
     <>
       <title>Ecommerce Project</title>
