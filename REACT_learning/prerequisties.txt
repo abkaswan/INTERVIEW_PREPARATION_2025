@@ -156,3 +156,19 @@ git = helps us track our changes in the code
 web page is a single page like home page , login page 
 a website is a group of web pages 
 
+routing : it lets us create multiple pages in react
+routings lets us create multiple pages using 1 html file , this let us reuse our html code
+
+REACT ROUTER : read documentaion for react-router if you want more knowledge
+-->we need to load it where we render the app component like this : <BrowserRouter> <App /> </BrowserRouter>
+-->inside our App component we need to add a component called routes  
+-->basic structure : <Route> adds a page to our webiste , path tells the path of this page, element tells which element or component to display
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="checkout" element={<CheckOutPage>} />
+    </Routes>
+--> so routing is really simple , one more thing we are only using one index file ehre index.html file so this index file is shared between all the pages , reduces repitions
+--> this is a single page application (SPA) => we only have one html file and we use react to create multiple pages 
+--> shortcuts with react router : 
+    1. insted of path="/" we can use index both are same
+    2. 
