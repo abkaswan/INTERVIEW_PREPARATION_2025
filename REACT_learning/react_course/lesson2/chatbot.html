@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chatbot</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      // pascal case : each word starts with capital letter
+      function ChatInput() {
+        return (
+          // <input></input> // jsx is more strict than html so we need to close every tag or use self closing tag ex : <input />
+          <>
+            <input 
+              placeholder="Send a message to Chatbot" 
+              size="30"
+            />
+
+            <button>Send</button>
+          </>
+        );
+      }
+      function ChatMessage({message, sender}) {
+        // use this 
+        // const message = props.message;
+        // const sender = props.sender;
+        
+        // or use destructuring
+        // const {message, sender} = props;
+
+        // or destructure without props in function parameter
+
+        // either use this or use if statements directly into jsx
+        // if(sender === "robot") {
+        //   return(
+        //     <div>
+        //       <img src="../images/robot.png" width="50px"/>
+        //       {message}
+        //     </div>
+        //   )
+        // }
+
+        // guard operator &&
+        // const result = value1 && value2: if value1 is true then result will be value2 , this works jsut like an if-statement
+        
+        return(
+          <div>
+            {sender === "robot" && (
+              <img src="../images/robot.png" width="50"/>
+            )}
+            {message}
+            {sender === "user" && (
+              <img src="../images/user.png" width="50"/>
+            )}
+          </div>
+        )
+        
+      }
+
+      // use div for display multiple elements in react -- using component app insted of this now
+      // const app = (
+      //   <>
+      //     <ChatInput />
+      //     <ChatMessage
+      //       message = "hello chatbot" 
+      //       sender = "user" 
+      //     />
+      //     <ChatMessage 
+      //       message = "Hello! How can I help you?" 
+      //       sender = "robot" 
+      //     />
+      //     <ChatMessage 
+      //       message = "can you get me today's date?" 
+      //       sender = "user" 
+      //     />
+      //     <ChatMessage 
+      //       message = "Today is September 27" 
+      //       sender = "robot" 
+      //     />
+
+      //   </>
+      // );
+
+      function App(){
+        return (
+          <>
+            <ChatInput />
+            <ChatMessage 
+              message = "hello chatbot" 
+              sender = "user" 
+            />
+            <ChatMessage 
+              message = "Hello! How can I help you?" 
+              sender = "robot" 
+            />
+            <ChatMessage 
+              message = "can you get me today's date?" 
+              sender = "user" 
+            />
+            <ChatMessage 
+              message = "Today is September 27" 
+              sender = "robot" 
+            />
+          </>
+        );
+      }
+
+      const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>

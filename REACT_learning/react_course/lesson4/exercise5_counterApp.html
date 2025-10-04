@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Counter App</title>
+    <style>
+      body{
+        margin-top: 0;
+        margin-bottom : 0;
+      }
+      .app-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(222,222,222);
+        height: 100vh;
+      }
+      .counter-button{
+        background-color: rgb(52, 135, 84);
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      
+      // counter component
+      function Counter({count, increaseCount, buttonRef}){
+          return (
+            <button onClick={increaseCount} ref={buttonRef} className = "counter-button">
+              {count === 1 ? `Clicked ${count} time` : `Clicked ${count} times`}
+            </button>
+          );
+      }
+
+      function App(){
+        // now lift the state up for both counters to share the same state
+        const [count, setCount] = React.useState(0);
+        const buttonRef = React.useRef();
+
+        function increaseCount(){
+          setCount(count+1);
+        }
+        function resetToZero(){
+          setCount(0);
+        }
+
+        // method 2 : using React useEffect and useRef , you will learn about useRef like this easily
+        function handleClick(){
+          setInterval(() => {
+            const buttonElem = buttonRef.current;
+            if(buttonElem){
+              buttonElem.click(); // simulate a button click
+            }
+          },1000);
+        }
+
+        return (
+          <div className="app-container">
+            <Counter count = {count} increaseCount={increaseCount} buttonRef={buttonRef} />
+            <button onClick={resetToZero} className = "counter-button">Reset</button>
+            <button onClick={handleClick} className = "counter-button">Auto Click</button>
+          </div>
+        );
+      }
+
+      const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>

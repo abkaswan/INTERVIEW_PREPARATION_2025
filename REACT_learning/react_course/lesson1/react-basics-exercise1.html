@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <!-- run js code we can write like this -- using script tag -->
+    <script>
+        console.log('hello from script tag');
+    </script>
+    <!-- or we can write js code in separate file and link it here -->
+    <script src = "react-basics.js"></script>
+    <!-- or use external library (script tag can load from anywhere on the internet) -->
+    <script src="https://unpkg.com/supersimpledev/external-library.js"></script>
+
+    <script src = "https://unpkg.com/supersimpledev/dayjs.js"></script>
+    <!-- same way react is also an external library so we can load it from internet -->
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <!-- here document.querySelector takes html element from this file where we are using it - here currently we are using .js-container -->
+    <!-- ReactDOM.createRoot - sets up react to set it up we need to give it an html element so we are giving it what we set in document.querySelector -->
+    <!-- so what will happen now is that this element .js-container will act as a container for our react app and everything that we write in react will be rendered inside it only -->
+    <!-- container we use in react because it helps us to keep things isolated and organized -->
+    
+    <!-- babel(javascript compiler) is a library that converts jsx(javascript xml = same sa javascript but we can write html directly in our js code) code into normal js code so that browser can understand it -->
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      // this is jsx code
+      const button = <button>Good job!</button>;
+      // we can also use the dom for this like , you can think of this jsx code as the shortcut for this js code : 
+      //   const button  = document.createElement('button');
+      //   button.innerHTML = 'Good job!';
+      const paragraph = <p>My name is Abhishek</p>;
+
+      const paragraph1 = <p>Cotton socks</p>;
+      const paragraph2 = <p>Price : <span>$10</span></p>;
+      const button1 = <button>Add to cart</button>;
+    
+      const socksCost = 10;
+      const tShirtCost = 8 * 2;
+      const productCost = socksCost + tShirtCost;
+      const shippingCost = 5;
+      const totalCost = productCost + shippingCost;
+      console.log(productCost);
+
+      console.log(dayjs().format('MMMM D')); // just to check dayjs is working or not -- current date
+
+      const paragraph3 = <p>Product Cost : ${productCost}</p>;
+      const paragraph4 = <p>Shipping Cost : ${shippingCost}</p>;
+      const paragraph5 = <p>Total Cost : ${totalCost}</p>;
+      const button2 = <button>Place your order</button>;
+      const finalDiv = (
+        <div>
+            {paragraph3}
+            {paragraph4}
+            {paragraph5}
+            {button2}
+        </div>
+      );
+
+      const paragraph6 = <p>Today is {dayjs().format('MMMM D, YYYY')}</p>;
+      const paragraph7 = <p>Current time: {dayjs().format('HH:mm:ss')}</p>;
+      const container = document.querySelector('.js-container');
+      // render meaning to show something on the screen   
+      // ReactDOM.createRoot(container).render('Welcome to SuperSimpleDev React Course');
+      // ReactDOM.createRoot(container).render(paragraph);
+
+      // display multiple elements in react
+      // ReactDOM.createRoot(container).render(button, paragraph); // multiple elements in render not supported
+      // also we can't save multiple elements in single variable like this : const elements = <button>hello</button><p>hello from paragraph</p>; // this is also not supported
+      
+      // use div for display multiple elements in react
+      const div = (
+        <div>
+            {button}
+            {paragraph}
+
+            {paragraph1}
+            {paragraph2}
+            {button1}
+
+            {finalDiv}
+
+            {paragraph6}
+            {paragraph7}
+        </div>
+      );
+
+      // ReactDOM.createRoot(container).render(div);
+      const root = ReactDOM.createRoot(container);
+      // root.render(div);
+      setInterval(() => {
+        const currentTimeParagraph7 = <p>Current time: {dayjs().format('HH:mm:ss')}</p>;
+        root.render(currentTimeParagraph7);
+      }, 1000);
+    </script>
+  </body>
+</html>

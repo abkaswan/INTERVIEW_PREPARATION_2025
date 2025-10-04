@@ -1,0 +1,153 @@
+Need to know :
+1. basics of js
+2. basics of html
+______________________________________________________________________________________________________________________________________
+
+what is react : 
+external lib that helps us create websites easier
+
+-> external lib 
+-> helps us create websites easier
+    => feels natural ,lot simpler than using the dom featuere in js, create html elements we want directly then give it to react and react will display them
+    => jsx lets us find the error easier -- because those are actual elemets rater than text/a string
+    => we can insert values inside jsx elements ex :       const paragraph = <p>This is a paragraph {2+2}</p>;
+
+______________________________________________________________________________________________________________________________________
+
+why are there two external libs for react ?
+<script src="https://unpkg.com/supersimpledev/react.js"></script>
+<script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+react can be used in different places 
+
+websites - react(shared features), reactDOM
+mobile apps - react(shared features), reactNative
+______________________________________________________________________________________________________________________________________
+
+lesson 2 : components , props , start the chatbot project
+
+components -- just a piece of the website
+when building websites : 
+    - it's better to split up the websites into pieces.
+    - so we can work on a small piece of the website at a time.
+Main ideas of react : 
+    => we can create our own html elements
+
+{/* 3 ways to call a component */}
+    1. {/* {ChatInput()} function call */}
+    2. {/* <ChatInput></ChatInput> component syntax */}{/* we are creating our own html element , there are some default html elements in react like <div> , <p> , <span> , <input> , <button>  but here we created our own html element <ChatInput /> */}
+    3. {/* <ChatInput /> */} {/* self closing tag */}
+
+fragment (<></> = group elements together without creating an extra <div>)
+
+components are designed to be reusable.
+
+PROPS (properties) : 
+        -->every component function gets one parameter up here called props. 
+        -->props is an object and it contains all the attributes that we give this component.
+        -->props are useful because they make our components reusable.
+
+if statements inside the jsx : 
+// guard operator &&
+// const result = value1 && value2: if value1 is true then result will be value2 , this works jsut like an if-statement
+
+now insted of using a variable to save our app best practice is to create a componnent to save this app
+why because it gives us extra features of components like props etc 
+and also notice we can have components inside the components this lets us split our website smaller and smaller pieces.
+
+______________________________________________________________________________________________________________________________________
+lesson 3 : state , event handlers , create the chatbot features
+
+______________________________________________________________________________________________________________________________________
+lesson 4 : css with react, hooks, finish the chatbot project
+
+css = change the appearence of the website
+css with react = use css how you do normally
+way 1 : create a style element
+
+in react we use className
+    -- react is js code
+    -- js already has a feature called className
+    -- class is a reserved word so we use className
+
+autoscroll :
+    ->we will use hooks , hooks = insert react features into our component
+    
+    useState =>
+    ->React.useState is a hook , const[inputText,setInputText]=React.useState(''); it inserts a react feature called state into our component
+    -->and state automatically udpates the html when the data changes
+    --> some other hooks example : useStatee(), useEffect(), useRef() and more... , every hook starts with the name use
+    
+    useEffect =>
+    --> useEffect = let's run some code after the component is created or updated
+    --> put hooks at the top of the component , it should not be inside of anything like if statement or function that is wrong
+    --> react will run this function of useEffect - after component is created or every time the component is updated.
+    
+    useRef =>
+    --> useRef automatically save an HTML element from the component
+    --> ref = container with special react features
+    --> one special feature is we can give this ref to react and react will automatically save an html elemnt inside this ref or inside this container.
+
+    custom hooks =>
+    --> in addition to built-in hooks like useState and useEffect , we can also create our own , custom hooks. so we can easily add this feature to other components.
+    
+
+______________________________________________________________________________________________________________________________________
+
+lesson5 : proper React setup with vite;
+
+-->install node and npm , check via npm -v and node -v commands
+--> node -- let us run the js files outside of a browswer
+--> npm - node package manager , package = external lib , node lets us install external libs or packages in our project
+--> install supersimpledev by npm install supersimpledev , you will see in node_modules/supersimpledev
+--> some of the npm packages also add a command to our command line ex : create-vite , it also adds a command create-vite for our command line , create-vite helps us set up new react project
+--> install the create-vite package , run create-vite in the command line => more better option use npx create-vite (npx does both thnings , x means execute) or you can also use npm create vite( this is a shortcut for npx create-vite)
+
+project structure:
+-->src = source folder - contains code for our webiste (all js and css code goes in here , remember when writing react code we write jsx instad of js code so file here also ends with .jsx)
+--> assets = contains images we wnat in our project
+--> public = contains files that should be available to the public (we can access these using a URL)
+--> .gitignore , actually this is part of git , git lets us track the changes in our code , for this project we are learning react so this is irrelevant
+--> eslint.config.js - used by tool called eslint -- eslint highlights problems in our js code -- to use eslint we can install eslint extension => now this files eslint config files configures the eslint , it tells eslint what to check for 
+--> index.html -- contains all the html code for our react website (this is where we were making changes till previous lessons like chatbot.html and all ) but here we don't need to write js code here , it loads the js from a different file
+--> package-lock.json - it says the version numbers of all the packages that we installed (even those that are not in package.json) , next time we run npm install this ensures we get the same versions
+--> package.json - has lists of packages that we need to install to run this project
+--> readme.md -- for informational purpose
+--> vite.config.js -- vite = tool that we used to set up this project , it also helps us build the website , vite also creates a server (a server puts our webiste at a URL) , vite server also like live server refreshes the webiste when we change the code
+                   -- this config file configures vite .
+
+let;s us move the previous chatbot project in this new one
+
+main.jsx does the same things as we have done in our html files so far which is : 
+-- we do createRoot give it a container and render the app component , the same thing is happening in main.jsx go check it.
+const container = document.querySelector('.js-container');
+ReactDOM.createRoot(container).render(<App />);
+
+<StrickMode> = gives us some additoinal checks and warnings when developing our app
+
+why index.css and app.css two different css files ?
+best practice is to split our css into different files.
+
+App.css - all the css for app component goes to the app.css
+index.css - all the css for overall website goes to index.css
+
+big advantage -- separate our code into different files
+best practice =>now separate each component into its each file -- easy to manage
+
+javascript moduel review : 
+    ->ChatInput for example only exists in this file ChatInput.jsx , it cannot be used outside the file.
+    -> if we wnat to use outside the file we need to export it 
+
+commands : 
+npm run dev works how : 
+    npm run : tells the computer to look inside package.json for a section called scripts
+    dev : look inside scripts for dev and run the command on the right side (which is vite)
+    the vite command is added by the vite package. it starts the vite server , which lets us view the react website
+
+next npm run lint :
+    this runs the command eslint, which checks our files and gives a list of eslint errors. by default , there are no errors.
+
+______________________________________________________________________________________________________________________________________
+lesson 6 : routing, git , start the ecommerce project
+
+git = helps us track our changes in the code

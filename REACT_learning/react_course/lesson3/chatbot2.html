@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chatbot</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      function ChatInput({chatMessages, setChatMessages}) {
+        // use state to save the text
+        const [inputText,setInputText] = React.useState('');
+
+        // when onChange runs it gives an event object as an argument to the function saveInputText
+        // event is an object that contains information about the event that just happened , in this case the changes in the input field
+        // event.target = the element that triggered the event , in this case the input field
+        // event.target.value = the value of the input field
+        function saveInputText(event){
+          // console.log(event.target.value);
+          setInputText(event.target.value);
+          
+        }
+        function sendMessage(){
+          const newChatMessages = [
+            ...chatMessages,
+            {
+              message: inputText,
+              sender: "user",
+              id: crypto.randomUUID()
+            }
+          ];
+          // setChatMessages([
+          //   ...chatMessages,
+          //   {
+          //     message: inputText,
+          //     sender: "user",
+          //     id: crypto.randomUUID()
+          //   }
+          // ]);
+          setChatMessages(newChatMessages);
+          
+          // state does not update immediately , it is updated after all of the code is finished
+          // so here we are taking the old value of chatMessages and adding the new message to it
+          const response = Chatbot.getResponse(inputText);
+          // console.log(response);
+          setChatMessages([
+            ...newChatMessages,
+            {
+              message: response,
+              sender: "robot",
+              id: crypto.randomUUID()
+            }
+          ]);
+
+          setInputText(''); // clear the input field after sending the message
+        }
+
+        // value = change the text inside this <input>
+        // this is called controlled input : the value of the input field is controlled by react state
+        return (
+          <>
+            <input 
+              placeholder="Send a message to Chatbot" 
+              size="30"
+              onChange={saveInputText}
+              value={inputText}
+            />
+
+            <button
+              onClick={sendMessage}
+            >Send</button>
+          </>
+        );
+      }
+      function ChatMessage({message, sender}) {
+        
+        return(
+          <div>
+            {sender === "robot" && (
+              <img src="../images/robot.png" width="50"/>
+            )}
+            {message}
+            {sender === "user" && (
+              <img src="../images/user.png" width="50"/>
+            )}
+          </div>
+        )
+        
+      }
+      
+      function ChatMessages({chatMessages}) {
+        // React.useState , returns an array so save it in a variable
+        // const array = React.useState(
+        //   [{
+        //     message : "hello chatbot",
+        //     sender : "user",
+        //     id: 'id1' 
+        //   },
+        //   {
+        //     message : "Hello! How can I help you?",
+        //     sender : "robot",
+        //     id: 'id2'
+        //   },
+        //   {
+        //     message : "can you get me today's date?",
+        //     sender : "user",
+        //     id: 'id3'
+        //   },
+        //   {
+        //     message : "Today is September 27",
+        //     sender : "robot",
+        //     id: 'id4'
+        //   }]
+        // );
+        
+        // const chatMessages = array[0]; // current data or current value of chatMessages
+        // const setChatMessages = array[1]; // updater function : function that update the chatMessages data
+        
+        // instead of above two lines we can use array destructuring -  the order matters
+        // const [chatMessages, setChatMessages] = array;
+
+        // also instead of using array and then array[0] and array[1] we can directly use array destructuring in the first place
+        // const [chatMessages, setChatMessages] = React.useState(
+        //   [{
+        //     message : "hello chatbot",
+        //     sender : "user",
+        //     id: 'id1' 
+        //   },
+        //   {
+        //     message : "Hello! How can I help you?",
+        //     sender : "robot",
+        //     id: 'id2'
+        //   },
+        //   {
+        //     message : "can you get me today's date?",
+        //     sender : "user",
+        //     id: 'id3'
+        //   },
+        //   {
+        //     message : "Today is September 27",
+        //     sender : "robot",
+        //     id: 'id4'
+        //   }]
+        // )
+
+        // const chatMessages = [{
+        //   message : "hello chatbot",
+        //   sender : "user",
+        //   id: 'id1' 
+        // },
+        // {
+        //   message : "Hello! How can I help you?",
+        //   sender : "robot",
+        //   id: 'id2'
+        // },
+        // {
+        //   message : "can you get me today's date?",
+        //   sender : "user",
+        //   id: 'id3'
+        // },
+        // {
+        //   message : "Today is September 27",
+        //   sender : "robot",
+        //   id: 'id4'
+        // }];
+
+        // here onClick is event and sendMessage is event handler(it does something when this event happens or handles this event) , event prop always starts with on and the name of the event like click
+        // event prop is written in camelCase
+        // onClick : run a function when we click on the button
+        // onClick = {sendMessage()} : here we shouldn't use () because it will run the function and the result will be undefined
+        // function sendMessage(){
+          // console.log("send message hihi");
+
+          // add the message to chatMessages array
+          // .push adds an element to the end of the array
+          // using id : crypto.randomUUID() because key should be unique , now everytime we click on send message it will generate a new id
+          // now we will notice that when we updated the data it did not update the HTML , because React does not know that the data has changed
+          
+          // step 2 : LEARNING STATE
+          // so for that we will use state : data that is connected to the HTML and when the data changes the HTML updates automatically
+          // for this convert chatMessages array to state
+          // chatMessages.push({
+          //   message: "test",
+          //   sender: "user",
+          //   id: crypto.randomUUID()
+          // });
+
+
+          // in react we should not modify the data directly we should create a copy and then modify the copy. this helps react to be more efficient
+          // ... is spread operator : it takes all the elements of the array and spreads them out
+          // setChatMessages([
+          //   ...chatMessages,
+          //   {
+          //     message: "test",
+          //     sender: "user",
+          //     id: crypto.randomUUID()
+          //   }
+          // ]);
+
+          // now instead of adding the message test every time we will add the message from the input field
+          // react best practice : we should not directly access the DOM elements in react , it might interfere with react
+          // we should use react features here
+
+
+          // console.log(chatMessages);
+        // }
+        // {} : save any type of value in a prop (including a function)      
+        return (
+          <>
+            {/* <button onClick={sendMessage} >Send message</button> */}
+            {chatMessages.map((chatMessage)=>{
+                  return (
+                    <ChatMessage 
+                      message= {chatMessage.message}
+                      sender= {chatMessage.sender}
+                      key={chatMessage.id}
+                    />
+                  );
+            })}
+          </>
+        );
+      }
+
+      // step 1 : make the website interactive
+      // event handler : run a function when we interact with the website
+
+      // step 3 : lifting the state up - share the state between multiple components , visualize the components in our app using component tree
+      // use props to share the state
+      function App(){
+         const [chatMessages, setChatMessages] = React.useState(
+          [{
+            message : "hello chatbot",
+            sender : "user",
+            id: 'id1' 
+          },
+          {
+            message : "Hello! How can I help you?",
+            sender : "robot",
+            id: 'id2'
+          },
+          {
+            message : "can you get me today's date?",
+            sender : "user",
+            id: 'id3'
+          },
+          {
+            message : "Today is September 27",
+            sender : "robot",
+            id: 'id4'
+          }]
+        );
+
+        return (
+          <>
+            <ChatInput 
+              chatMessages={chatMessages}
+              setChatMessages={setChatMessages}
+            />
+            <ChatMessages 
+              chatMessages={chatMessages}
+            />
+          </>
+        );
+      }
+
+      const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>

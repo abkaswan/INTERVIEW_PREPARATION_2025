@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Counter App</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      
+      // counter component
+      function Counter({count, increaseCount}){
+          return (
+            <button onClick={increaseCount}>
+              {count === 1 ? `Clicked ${count} time` : `Clicked ${count} times`}
+            </button>
+          );
+      }
+
+      function App(){
+        // now lift the state up for both counters to share the same state
+        const [count, setCount] = React.useState(0);
+        function increaseCount(){
+          setCount(count+1);
+        }
+        function resetToZero(){
+          setCount(0);
+        }
+        return (
+          <>
+            <Counter count = {count} increaseCount={increaseCount}/>
+            <Counter count = {count} increaseCount={increaseCount}/>
+            <button onClick={resetToZero}>Reset</button>
+          </>
+        );
+      }
+
+      const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>

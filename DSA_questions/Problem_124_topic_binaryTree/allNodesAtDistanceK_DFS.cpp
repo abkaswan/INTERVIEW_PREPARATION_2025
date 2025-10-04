@@ -69,10 +69,10 @@ public:
     }
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
         
-        // step1 : build your parent links bedcause you will need it for traversal time -- can do via dfs/bfs both , we are doing bfs here 
+        // step1 : build your parent links bedcause you will need it for traversal time -- can do via dfs/bfs both , we are doing dfs here 
         unordered_map<TreeNode*,TreeNode*> mpp;
         buildParent(root,mpp);
-        // step 2 : now either do bfs/dfs to traverse the tree -- we are doing bfs here for now.
+        // step 2 : now either do bfs/dfs to traverse the tree -- we are doing dfs here for now.
         unordered_set<TreeNode*> visited;
         vector<int> result;
         DFSTraversal(target,k,mpp,visited,result);

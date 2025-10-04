@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Counter App</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      
+      // counter component
+      function Counter({count, increaseCount}){
+          return (
+            <button onClick={increaseCount}>
+              {count === 1 ? `Clicked ${count} time` : `Clicked ${count} times`}
+            </button>
+          );
+      }
+
+      function App(){
+        // now lift the state up for both counters to share the same state
+        const [count, setCount] = React.useState(0);
+        const [isAutoClick, setIsAutoClick] = React.useState(false);
+
+        function increaseCount(){
+          setCount(count+1);
+        }
+        function resetToZero(){
+          setCount(0);
+        }
+
+        // method 1 : using React useEffect below where clicking the button by updating the state here directly 
+        React.useEffect(() => {
+          let intervalId;
+          
+          if(isAutoClick){
+            intervalId = setInterval(() => {
+              setCount((count) => count + 1);
+            }, 1000);
+          }
+
+          // clean up function : stop the interval when isAutoClick changes
+          return () => {
+            if(intervalId) clearInterval(intervalId);
+          };
+          
+        }, [isAutoClick]);
+
+        function handleClick(){
+          setIsAutoClick(!isAutoClick); // toggle auto click on or off
+        }
+
+        return (
+          <>
+            <Counter count = {count} increaseCount={increaseCount}/>
+            <button onClick={resetToZero}>Reset</button>
+            <button onClick={handleClick}>{isAutoClick ? 'Stop auto click' : 'Auto Click'}</button>
+          </>
+        );
+      }
+
+      const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>

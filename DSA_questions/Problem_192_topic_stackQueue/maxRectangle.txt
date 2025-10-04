@@ -1,0 +1,66 @@
+there is a gfg link also : https://www.geeksforgeeks.org/problems/max-rectangle/1
+leetcode link : https://leetcode.com/problems/maximal-rectangle/description/
+leetcode problem description :
+
+85. Maximal Rectangle
+Hard
+Topics
+premium lock iconCompanies
+
+Given a rows x cols binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
+
+ 
+
+Example 1:
+
+Input: matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]
+Output: 6
+Explanation: The maximal rectangle is shown in the above picture.
+
+Example 2:
+
+Input: matrix = [["0"]]
+Output: 0
+
+Example 3:
+
+Input: matrix = [["1"]]
+Output: 1
+
+ 
+
+Constraints:
+
+    rows == matrix.length
+    cols == matrix[i].length
+    1 <= row, cols <= 200
+    matrix[i][j] is '0' or '1'.
+
+
+
+////////////// so here this out : similarities between rectangle in histogram and trapping rain water problem/////////////////////////
+
+📌 Largest Rectangle in Histogram
+Trigger: When you pop an element (height).
+That popped bar’s height defines the rectangle’s height.
+Width = distance between new stack top (left boundary) and current index (right boundary).
+✅ So the maximum rectangle for that bar is decided at the moment it’s popped.
+
+Bars still in the stack might later stretch wider if they never get popped until later.
+
+📌 Trapping Rain Water
+Trigger: When you pop an element (the “bottom”).
+But here the popped bar is not the one whose value we use as “height.”
+Instead:
+The new stack top = left wall,
+The current bar = right wall,
+Water above popped = (min(leftWall, rightWall) – bottomHeight) * width.
+✅ So it’s really a window computation across the popped element.
+
+🔑 The symmetry:
+Both are monotonic stack problems.
+Both compute something when an element is popped.
+
+Difference:
+Histogram: popped bar = rectangle’s height.
+Rainwater: popped bar = bottom, and we use the neighbors (left/right walls) to determine water above it.

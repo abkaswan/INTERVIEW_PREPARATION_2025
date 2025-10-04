@@ -1,0 +1,69 @@
+---
+
+## 🔹 1. **Graph Traversal / Connectivity**
+
+| Algorithm                                 | Graph Type                      | Used For                                                                               | Time Complexity                    | Space Complexity               | Notes / Use Cases                                                                                               |
+| ----------------------------------------- | ------------------------------- | -------------------------------------------------------------------------------------- | ---------------------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| **BFS (Breadth-First Search)**            | Directed/Undirected, Unweighted | Traversal, Connectivity check, Bipartite check, Shortest path in **unweighted graphs** | O(V + E)                           | O(V)                           | Also forms BFS tree; used in network broadcasting, level-order processing                                       |
+| **DFS (Depth-First Search)**              | Directed/Undirected             | Traversal, Connectivity check, Topo sort, Cycle detection                              | O(V + E)                           | O(V) (recursion stack/visited) | Used for connected components, articulation points, bridges, strongly connected components (with modifications) |
+| **Union-Find (Disjoint Set Union - DSU)** | Undirected                      | Connectivity, Cycle detection                                                          | \~O(α(V)) per op (almost constant) | O(V)                           | Faster than DFS/BFS in dynamic connectivity problems (Kruskal’s, dynamic graphs)                                |
+
+---
+
+## 🔹 2. **Cycle Detection**
+
+| Algorithm                                      | Graph Type | Used For                                                       | Time Complexity | Space Complexity | Notes / Use Cases            |
+| ---------------------------------------------- | ---------- | -------------------------------------------------------------- | --------------- | ---------------- | ---------------------------- |
+| **DFS in Undirected Graph (parent check)**     | Undirected | Detect cycles                                                  | O(V + E)        | O(V)             | If neighbor ≠ parent → cycle |
+| **BFS in UG  parent check**                    | Undirected | Detect cycles                                                  | O(V + E)        | O(V)             | If neighbor ≠ parent → cycle |
+| **Union-Find (DSU)**                           | Undirected | Detect cycle                                                   | O(E \* α(V))    | O(V)             | Used in Kruskal’s MST        |
+| **DFS with visited states (white-gray-black)** | Directed   | Detect cycles                                                  | O(V + E)        | O(V)             | Standard approach            |
+| **BFS (Kahn’s Algo)**                          | Directed   | Detect cycle via topo sort (if topo sort fails → cycle exists) | O(V + E)        | O(V)             | Used for DAG validation      |
+
+---
+
+## 🔹 3. **Shortest Path**
+
+| Algorithm                        | Graph Type                                     | Used For                    | Time Complexity  | Space Complexity | Notes / Use Cases              |
+| -------------------------------- | ---------------------------------------------- | --------------------------- | ---------------- | ---------------- | ------------------------------ |
+| **BFS (on unweighted graph)**    | Unweighted (directed/undirected)               | Single-source shortest path | O(V + E)         | O(V)             | Level = distance               |
+| **Topo Sort + Relaxation (DAG)** | Directed Acyclic Graph                         | Single-source shortest path | O(V + E)         | O(V + E)         | Works only on DAGs             |
+| **Dijkstra’s Algorithm (PQ)**    | Weighted, non-negative                         | Single-source shortest path | O((V+E) log V)   | O(V + E)         | Classic, used in maps, routing |  --> i am here currently doing this one
+| **Dijkstra (array version)**     | Weighted, non-negative                         | Single-source shortest path | O(V² + E)        | O(V)             | Simpler but slower             |
+| **Bellman-Ford**                 | Weighted (negative allowed)                    | Single-source shortest path | O(V·E)           | O(V)             | Detects negative cycles        |
+| **Floyd-Warshall**               | Weighted (negative allowed, no negative cycle) | All-pairs shortest path     | O(V³)            | O(V²)            | Dynamic programming            |
+| **Johnson’s Algorithm**          | Weighted (negative allowed)                    | All-pairs shortest path     | O(V² log V + VE) | O(V²)            | Uses reweighting + Dijkstra    |
+
+---
+
+## 🔹 4. **Minimum Spanning Tree (MST)**
+
+| Algorithm                          | Graph Type           | Used For | Time Complexity         | Space Complexity | Notes / Use Cases                |
+| ---------------------------------- | -------------------- | -------- | ----------------------- | ---------------- | -------------------------------- |
+| **Prim’s Algorithm (min-heap)**    | Undirected, Weighted | MST      | O(E log V)              | O(V + E)         | Greedy; grows tree from one node |
+| **Prim’s Algorithm (adj matrix)**  | Dense Graphs         | MST      | O(V²)                   | O(V²)            | Simpler for dense graphs         |
+| **Kruskal’s Algorithm (with DSU)** | Undirected, Weighted | MST      | O(E log E) ≈ O(E log V) | O(V + E)         | Greedy; sorts edges              |
+| **Borůvka’s Algorithm**            | Undirected, Weighted | MST      | O(E log V)              | O(V + E)         | Good for parallelization         |
+
+---
+
+## 🔹 5. **Strongly Connected Components (SCC)**
+
+| Algorithm                | Graph Type | Used For      | Time Complexity | Space Complexity | Notes / Use Cases          |
+| ------------------------ | ---------- | ------------- | --------------- | ---------------- | -------------------------- |
+| **Kosaraju’s Algorithm** | Directed   | SCC detection | O(V + E)        | O(V + E)         | Uses 2 DFS passes          |
+| **Tarjan’s Algorithm**   | Directed   | SCC detection | O(V + E)        | O(V)             | Uses DFS + low-link values |
+
+---
+
+## 🔹 6. **Advanced / Network Flow**
+
+| Algorithm               | Graph Type                    | Used For              | Time Complexity | Space Complexity | Notes / Use Cases               |
+| ----------------------- | ----------------------------- | --------------------- | --------------- | ---------------- | ------------------------------- |
+| **Edmonds-Karp**        | Directed, weighted capacities | Max Flow              | O(VE²)          | O(V+E)           | BFS based Ford-Fulkerson        |
+| **Dinic’s Algorithm**   | Directed, weighted capacities | Max Flow              | O(V²E) (worst)  | O(V+E)           | Faster in practice              |
+| **Push-Relabel**        | Directed, weighted capacities | Max Flow              | O(V³)           | O(V²)            | Very efficient for dense graphs |
+| **Hungarian Algorithm** | Bipartite Graph               | Minimum Cost Matching | O(V³)           | O(V²)            | Assignment problems             |
+
+---
+

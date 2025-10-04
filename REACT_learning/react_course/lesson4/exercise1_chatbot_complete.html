@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- 
+        1. css selector -- which element to change 
+        2. css style -- how to change the appearance of the element
+        3. css property and css value -- left side is css property and right side is css value
+
+        some css properties:
+          padding -- space inside the element
+          margin -- space outside the element
+          flexbox -- create a flexible layout
+            -> layout means how the elements are positioned
+            -> to use flexbox 
+              a. we need to create container around elements
+              b. add the property display: flex; to the container
+              c. use flexbox features
+              d. flex-grow -- makes an element grow and take up the remaining space
+              e. justtify-content - how eleemnts are displayed horizontally
+          NOTE : when a block elemnt (like <div>) is inside a flexbox : it no longer takes up the entire line and it only takes as much space as it needs to
+          NOTE 2 : by deafult elements inside a flexbox will stretch vertically to take up the entire height of the flexbox
+          NOTE 3 : by deafult flexbox positions elements horizontally from left to right , we can change this using flex-direction property
+              f. align-items -- how elements are displayed vertically , by default align-items is set to stretch
+          vh - viewport height - 1vh is 1% of the viewport height
+    -->       
+    <style>
+      .toggleButton{
+        color: white;
+        padding: 12px 20px;
+        margin-left : 10px;
+        border: none;
+        border-radius : 10px;
+        font-size: 15px;
+        cursor: pointer;
+      }
+      .toggleButtonOn{
+        background-color: rgb(25, 135, 84);
+      }
+      .toggleButtonOff{
+        background-color: rgb(220, 53, 69);
+      }
+    </style>
+    <title>Chatbot</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      
+      function App(){
+        const [isButtonOn,setIsButtonOn] = React.useState(true);
+        return (
+          <>
+            <button onClick={() => setIsButtonOn(!isButtonOn)} className={`toggleButton ${isButtonOn ? 'toggleButtonOn' : 'toggleButtonOff'}`}>{isButtonOn?'ON':'OFF'}</button>
+          </>
+        );
+      }
+
+      const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chatbot</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      function ChatInput() {
+        return (
+          <>
+            <input 
+              placeholder="Send a message to Chatbot" 
+              size="30"
+            />
+
+            <button>Send</button>
+          </>
+        );
+      }
+      function ChatMessage({message, sender}) {
+        
+        return(
+          <div>
+            {sender === "robot" && (
+              <img src="../images/robot.png" width="50"/>
+            )}
+            {message}
+            {sender === "user" && (
+              <img src="../images/user.png" width="50"/>
+            )}
+          </div>
+        )
+        
+      }
+
+      function App(){
+        // insted of manually typing new chat message component
+        // we are gonna generate these components using javascript
+        // step 1 : save the data in an array of objects => object : group related value together , here it is message and sender
+        const chatMessages = [{
+          message : "hello chatbot",
+          sender : "user",
+          id: 'id1' 
+        },
+        {
+          message : "Hello! How can I help you?",
+          sender : "robot",
+          id: 'id2'
+        },
+        {
+          message : "can you get me today's date?",
+          sender : "user",
+          id: 'id3'
+        },
+        {
+          message : "Today is September 27",
+          sender : "robot",
+          id: 'id4'
+        }];
+
+        //step 2 : generate the HTML
+        
+        // arrays have a method called map, it lets us go through each value of the array and convert it in a new value
+        // need to give a function to map method , arrow function here : works the same ways as a function , but it's shorter`
+        // example of how it works : (chatMessage) => { return ... } -> whatever it returns will be newValue1 , then (chatMessage) => { return ... } -> whatever it returns will be newValue2 and so on
+        // for here we want to convert each chatMessage object into a new ChatMessage component
+        // {} like {chatMessage.message} because it saves the result of the code into the prop
+        // now save the result of this in a variable
+        // or use directly in the return statement
+        
+        /*
+        const chatMessageComponents = chatMessages.map((chatMessage)=>{
+          return (
+            <ChatMessage 
+              message= {chatMessage.message}
+              sender= {chatMessage.sender}
+              key={chatMessage.id}
+            />
+          )
+        });
+        */
+
+        // key prop : special prop that react uses to keep track of each component when it needs to update the screen -- it should be unique
+
+        return (
+          <>
+            <ChatInput />
+            {/* {chatMessageComponents} */}
+            {chatMessages.map((chatMessage)=>{
+              return (
+                <ChatMessage 
+                  message= {chatMessage.message}
+                  sender= {chatMessage.sender}
+                  key={chatMessage.id}
+                />
+              );
+            })}
+          </>
+        );
+      }
+
+      const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>
