@@ -152,3 +152,7 @@ lesson 6 : routing, git , start the ecommerce project
 
 git = helps us track our changes in the code
 .gitignore = tells git which fiels and folders to ignore (not to track changes)
+
+web page is a single page like home page , login page 
+a website is a group of web pages 
+
