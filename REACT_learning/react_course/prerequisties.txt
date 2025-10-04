@@ -176,3 +176,22 @@ REACT ROUTER : read documentaion for react-router if you want more knowledge
 --> usually Link elements <a> reload the page if we go to another page using those , this made sense if we had multiple html compnents like earlier but now we are using react and only one index.html we are using , we can use javascript to do this and use <Link> instead of <a>
     so when using react-router we should use <Link> instead of <a> , it go to another page without reloading
 
+
+<NavLink> instead of <Link> : 
+special feature of <NavLink> is it knows which page is loaded. ex : if you are on the orders page , it adds a class active to the orders link (className = "order-link ... active")
+
+______________________________________________________________________________________________________________________________________
+lesson 7 : backend , data fetching , async await
+
+backend : 
+-->manages the data
+-->shares data between computers
+examples and explanations => 
+so a real life ecommerce website might have hundreds of thousands of products and it doesn't make sense to have it in our computer/or client's computer , might not have enough space also 
+company's computer -- saves all products, when we visit the site this computer sends ony the product we need , this computer which company uses is called backend and bakend manages all the data.
+another exmaple/uses : we add something in cart , it doens't make sense to save it in our/customer computer because if we visit from another website the cart will be lost. so we save the cart in backend as well , so backend let;s us share data between the computers also.
+
+
+learning in this lesson : 
+1. how to add a backend
+2. how to use the backend
