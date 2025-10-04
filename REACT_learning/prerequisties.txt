@@ -109,7 +109,7 @@ project structure:
 --> public = contains files that should be available to the public (we can access these using a URL)
 --> .gitignore , actually this is part of git , git lets us track the changes in our code , for this project we are learning react so this is irrelevant
 --> eslint.config.js - used by tool called eslint -- eslint highlights problems in our js code -- to use eslint we can install eslint extension => now this files eslint config files configures the eslint , it tells eslint what to check for 
---> index.html -- contains all the html code for our react website (this is where we were making changes till previous lessons like chatbot.html and all ) but here we don't need to write js code here , it loads the js from a different file
+--> / -- contains all the html code for our react website (this is where we were making changes till previous lessons like chatbot.html and all ) but here we don't need to write js code here , it loads the js from a different file
 --> package-lock.json - it says the version numbers of all the packages that we installed (even those that are not in package.json) , next time we run npm install this ensures we get the same versions
 --> package.json - has lists of packages that we need to install to run this project
 --> readme.md -- for informational purpose
@@ -167,7 +167,7 @@ REACT ROUTER : read documentaion for react-router if you want more knowledge
       <Route path="/" element={<HomePage />} />
       <Route path="checkout" element={<CheckOutPage>} />
     </Routes>
---> so routing is really simple , one more thing we are only using one index file ehre index.html file so this index file is shared between all the pages , reduces repitions
+--> so routing is really simple , one more thing we are only using one index file ehre / file so this index file is shared between all the pages , reduces repitions
 --> this is a single page application (SPA) => we only have one html file and we use react to create multiple pages 
 --> shortcuts with react router : 
     1. insted of path="/" we can use index both are same
