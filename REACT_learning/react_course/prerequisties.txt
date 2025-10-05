@@ -219,3 +219,9 @@ now how to fetch data using fetch (js featuere):
     });
 
 now this is still tricky and can be confusing so we will use npm package axios , => cleaner way to make requests to the backend
+
+/api/products -- gives products data
+/api/cart-data -- gives cart data for our application
+whoever creates the backend decides what the URL paths will be ,common naming convention is GET/api/
+https://github.com/SuperSimpleDev/react-course/blob/main/1-links.md => here you can find the documentaion for the backend for e-commerce webiste that we are creating
+api => application programming interface , /api = these URL paths are for interacting with the backend
