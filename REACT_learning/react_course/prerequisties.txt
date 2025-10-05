@@ -333,3 +333,8 @@ axios has a method for each type.
 
 now inside the checkout page for each product we have delivery option we will try to update them , now we are updating something so this is the type of put request 
 PUT request 
+
+Another hook : useNavigate 
+so for our project let's say we placed an order by using place your order button then what if we go to orders page after clicking it to see our orders , for this useNavigate hook will be useful.
+  const navigate = useNavigate();
+lets us navigate to (go to ) another page in our app by using like navigate(/orders) or some url 
