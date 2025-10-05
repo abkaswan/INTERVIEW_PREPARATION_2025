@@ -8,11 +8,13 @@ export function HomePage({cart}) {
   const [products, setProducts] = useState([]);
   // need to use useEffect to fetch data from backend - so that it only runs once when the component mounts
   useEffect(() => {
-    axios.get('/api/products')
-      .then((response)=>{
+    const getHomeData = async () => {
+      const response = await axios.get('/api/products');
       setProducts(response.data);
-    });
-  },[]);
+    };
+    
+    getHomeData();
+  }, []);
   
   return (
     <>

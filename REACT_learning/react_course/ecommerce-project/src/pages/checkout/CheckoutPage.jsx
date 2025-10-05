@@ -9,15 +9,15 @@ export function CheckoutPage({ cart }) {
   const [paymentSummary, setPaymentSummary] = useState(null); // null because payment summary is an object and it is easier to check if it is loaded or not
 
   useEffect(() => {
-    axios
-      .get("/api/delivery-options?expand=estimatedDeliveryTime")
-      .then((response) => {
-        setDeliveryOptions(response.data);
-      });
+    const fetchCheckoutData = async () => {
+      let response = await axios.get("/api/delivery-options?expand=estimatedDeliveryTime");
+      setDeliveryOptions(response.data);
 
-    axios.get("api/payment-summary").then((response) => {
+      response = await axios.get("api/payment-summary");
       setPaymentSummary(response.data);
-    });
+    }
+    fetchCheckoutData();
+    
   }, []);
 
   return (

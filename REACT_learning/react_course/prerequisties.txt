@@ -241,3 +241,61 @@ server: {
 and this in index.html for images : 
 <base href="/" />
 so that images will be taken from backend like /images/ this format 
+
+
+Async await = lets us write asynchronous code like normal code ( that runs line by line) => easier to understand => in react it's recommended that we use async await instead of promises when we can however there is a small problem when using async await and useEffect => discussing this below.
+right now we are using promises that means we need to use .then() to wait for that promise or code to finish and then run this function 
+but with async await =>  we can write this like a normal code 
+
+so instead of this : 
+
+useEffect(() => {
+  await axios.get('/api/products')
+    .then((response)=>{
+    setProducts(response.data);
+  });
+},[]);
+
+we can write it like this : (we are waiting for response so no need to do .then() because we were doing the same thing there also)
+
+useEffect(async () => {
+  const response = await axios.get('/api/products');
+  setProducts(response.data);
+}, []);
+
+-------problem in useEffect and async await---------- : 
+when we put async in front of a function , this fn will now return a promise because we are waiting for response due to await right ?
+that means this entire fn will take some time to finish , thats why it has to return a promise
+
+problem is inner fn in useEffect should not return a promise
+it should only return nothing or a cleanup fn like : 
+
+useEffect(()=>{
+  window.addEventListener('scroll',()=>{
+
+  });
+  
+  return () => {
+   window.removeEventListener('scroll');
+  }
+})
+
+return () => {
+  window.removeEventListener('scroll');
+}
+this is a cleanup fn , cleanup fn is useful if you want to do some cleanup once this component is used.
+
+useEffect(async () => {
+  const response = await axios.get('/api/products');
+  setProducts(response.data);
+}, []);
+so our current code is sort of breaking the rules of useEffect , to solve this we create a new fn inside useEffect like this : 
+--> create a new fn inside the return fn , use async await there and then run that fn , problem solved.
+useEffect(() => {
+  const getHomeData = async () => {
+    const response = await axios.get('/api/products');
+    setProducts(response.data);
+  };
+  
+  getHomeData();
+}, []);
