@@ -299,3 +299,11 @@ useEffect(() => {
   
   getHomeData();
 }, []);
+
+
+______________________________________________________________________________________________________________________________________
+lesson 8 : data mutation = udpate data in the backend  , types of requests 
+
+we will learn to update data (as we were only getting the data till now) from backend
+we will also learn add products to our cart and order 
+
