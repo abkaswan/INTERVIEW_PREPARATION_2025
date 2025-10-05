@@ -225,3 +225,13 @@ now this is still tricky and can be confusing so we will use npm package axios ,
 whoever creates the backend decides what the URL paths will be ,common naming convention is GET/api/
 https://github.com/SuperSimpleDev/react-course/blob/main/1-links.md => here you can find the documentaion for the backend for e-commerce webiste that we are creating
 api => application programming interface , /api = these URL paths are for interacting with the backend
+
+we should not use localhost:3000 everytime so config it in vite.config.js 
+server: {
+    proxy: {
+      '/api': {
+        target: "http://localhost:3000",
+      }
+    }
+  }
+and also images : 
