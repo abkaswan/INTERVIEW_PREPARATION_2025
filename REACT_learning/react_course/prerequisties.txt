@@ -312,3 +312,7 @@ lesson 8 : data mutation = udpate data in the backend  , types of requests
 we will learn to update data (as we were only getting the data till now) from backend
 we will also learn add products to our cart and order 
 
+axios.get('api/cart-items') = get data from backend
+.post() = create data in the backend => request body : here we also need to give extra information like which product to add to the cart for our current application if we click on add to cart
+
+

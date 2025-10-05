@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import { Header } from "../../components/Header";
 import "./HomePage.css";
 import { ProductsGrid } from './ProductsGrid';
-export function HomePage({cart}) {
+export function HomePage({cart, loadCart}) {
   // to fetch data from backend - we need to use useState to store the data
   const [products, setProducts] = useState([]);
   // need to use useEffect to fetch data from backend - so that it only runs once when the component mounts
@@ -24,7 +24,7 @@ export function HomePage({cart}) {
       <Header cart={cart} />
 
       <div className="home-page">
-        <ProductsGrid products={products} />
+        <ProductsGrid products={products} loadCart={loadCart} />
       </div>
     </>
   );
