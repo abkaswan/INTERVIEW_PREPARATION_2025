@@ -315,4 +315,21 @@ we will also learn add products to our cart and order
 axios.get('api/cart-items') = get data from backend
 .post() = create data in the backend => request body : here we also need to give extra information like which product to add to the cart for our current application if we click on add to cart
 
+.post() => we send url path , based on url path , the backend can do different things
+for ex : if we do /api/product = gives us the products
+         if we do /api/cart-iterms = gives us the cart 
+every request also has a type like get() = sends get and /api/cart-items (sends 2 pieces of info), post() = this sends type:post and url path : /api/cart-items ,
+when backend recieves the type , it looks both at the type and the url path and decides what to do 
 
+get => get the cart items
+post => create a new cart item
+
+type is also called a http method , 4 common types of requests : 
+  get = get some data
+  post = create some data
+  put = update some data
+  delete = delete some data
+axios has a method for each type.
+
+now inside the checkout page for each product we have delivery option we will try to update them , now we are updating something so this is the type of put request 
+PUT request 
