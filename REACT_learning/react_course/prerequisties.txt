@@ -227,11 +227,17 @@ https://github.com/SuperSimpleDev/react-course/blob/main/1-links.md => here you 
 api => application programming interface , /api = these URL paths are for interacting with the backend
 
 we should not use localhost:3000 everytime so config it in vite.config.js 
+and also images : 
 server: {
     proxy: {
       '/api': {
         target: "http://localhost:3000",
+      },
+      '/images': {
+        target: "http://localhost:3000",
       }
     }
-  }
-and also images : 
+}
+and this in index.html for images : 
+<base href="/" />
+so that images will be taken from backend like /images/ this format 

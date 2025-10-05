@@ -3,20 +3,15 @@ import {useEffect, useState} from 'react';
 import { Header } from "../components/Header";
 import "./HomePage.css";
 import CheckmarkIcon from "../assets/images/icons/checkmark.png";
-export function HomePage() {
+export function HomePage({cart}) {
   // to fetch data from backend - we need to use useState to store the data
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
   // need to use useEffect to fetch data from backend - so that it only runs once when the component mounts
   useEffect(() => {
     axios.get('/api/products')
       .then((response)=>{
       setProducts(response.data);
     });
-    axios.get('/api/cart-items')
-      .then((response)=>{
-        setCart(response.data);
-      })
   },[]);
   
   return (
