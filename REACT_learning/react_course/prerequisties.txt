@@ -379,3 +379,5 @@ to render the component we need some more packages
 npm install --save-dev @testing-library/react@16.3.0 @testing-library/jest-dom@6.6.3 @testing-library/user-event@14.6.1 jsdom@26.1.0
 
 also need to create some config files to test our components
+
+next test user interactions like add to cart button
