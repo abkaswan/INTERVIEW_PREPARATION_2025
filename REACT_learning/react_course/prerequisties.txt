@@ -360,3 +360,16 @@ window.axois = axios ; learning about this and what does this do :
 
 ______________________________________________________________________________________________________________________________________
 lesson 9: automated tests in react
+npm packages for automated testing (two most popular): 
+-jest 
+-vitest (going to use this bcoz it integrates with vite well) (but both are reallly similar)
+
+--save-dev means only for developement
+
+different type of tests ; 
+unit test => test 1 unit (or 1 piece) of the code
+like formatMoney fn from money.js will be considered unit test
+testing components like product.jsx is not unit test because they use different pieces of code together
+
+
+
