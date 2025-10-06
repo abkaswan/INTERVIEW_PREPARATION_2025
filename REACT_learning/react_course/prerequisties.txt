@@ -338,3 +338,25 @@ Another hook : useNavigate
 so for our project let's say we placed an order by using place your order button then what if we go to orders page after clicking it to see our orders , for this useNavigate hook will be useful.
   const navigate = useNavigate();
 lets us navigate to (go to ) another page in our app by using like navigate(/orders) or some url 
+
+
+window.axois = axios ; learning about this and what does this do : 
+// This makes axios available in the Console.
+// - Then, you can try running axios.post('/api/reset') in the Console.
+
+// More details:
+// - Normally, we can't access values (like axios) outside of a file.
+// - However, JavaScript has a built-in, global object called window
+//   (this represents the browser window).
+// - So one way to make a value accessible anywhere (including in the
+//   Console), is to attach it to the window object. That's why we
+//   do window.axios = axios;
+// - Now, in the Console, we can run window.axios.post(...)
+// - And JavaScript has another shortcut we can use. If we just type
+//   "axios", this is a shortcut for "window.axios"
+// - That's why the code window.axios = axios; lets us use "axios"
+//   anywhere (including in the Conosle).
+
+
+______________________________________________________________________________________________________________________________________
+lesson 9: automated tests in react

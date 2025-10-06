@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState} from "react";
 import { formatMoney } from "../../utils/money";
 import CheckmarkIcon from "../../assets/images/icons/checkmark.png";
 
 export function Product({product,loadCart}) {
   const [quantity, setQuantity] = useState(1);
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
 
   const addToCart = async () => {
     await axios.post("/api/cart-items", {
@@ -12,6 +13,11 @@ export function Product({product,loadCart}) {
         quantity
     });
     await loadCart();
+    setIsAddedToCart(true);
+
+    setTimeout(()=>{
+      setIsAddedToCart(false);
+    },2000);
   }
 
   const selectQuantity = (e) => {
@@ -59,7 +65,7 @@ export function Product({product,loadCart}) {
 
       <div className="product-spacer"></div>
 
-      <div className="added-to-cart">
+      <div className="added-to-cart" style={{opacity : isAddedToCart ? 1 : 0}}>
         <img src={CheckmarkIcon} />
         Added
       </div>
