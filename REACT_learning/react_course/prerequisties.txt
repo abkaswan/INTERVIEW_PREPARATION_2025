@@ -370,6 +370,12 @@ different type of tests ;
 unit test => test 1 unit (or 1 piece) of the code
 like formatMoney fn from money.js will be considered unit test
 testing components like product.jsx is not unit test because they use different pieces of code together
+npm install --save-dev vitest@3.1.2
 
+integration test => test multiple units of code working together
+when testing a function we run a fn and we check the result
+but when testing a component we render the component and check the result , redner => display the component on the page
+to render the component we need some more packages 
+npm install --save-dev @testing-library/react@16.3.0 @testing-library/jest-dom@6.6.3 @testing-library/user-event@14.6.1 jsdom@26.1.0
 
-
+also need to create some config files to test our components
