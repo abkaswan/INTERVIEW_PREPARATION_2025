@@ -1,4 +1,4 @@
-import {it, expect, describe, vi} from 'vitest';
+import {it, expect, describe, vi, beforeEach} from 'vitest';
 import {render, screen} from '@testing-library/react';
 import {Product} from './Product';
 import userEvent from '@testing-library/user-event';
@@ -7,8 +7,13 @@ import axios from 'axios';
 vi.mock('axios');
 // so this render from testing libraray will render our component in a virtual dom environment and then we can use screen to query the dom and check if the elements are present or not
 describe('Product component',()=>{
-    it('displays the product details correctly',()=>{
-        const product = {
+    let product;
+    let loadCart;
+
+    // now before each test we are gonna recreate the setup code so that if it is modified in one test it doesn't affect the other tests
+    // beforeEach is known as a test hook , there are other test hook we can use like afterEach , beforeAll , afterAll
+    beforeEach(()=>{
+        product = {
             id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
             image: "images/products/athletic-cotton-socks-6-pairs.jpg",
             name: "Black and Gray Athletic Cotton Socks - 6 Pairs",
@@ -19,8 +24,13 @@ describe('Product component',()=>{
             priceCents: 1090,
             keywords: ["socks", "sports", "apparel"]
         };
+
         // mock function for loadCart vi.fn()=crates a fake fn that doesn't do anything
-        const loadCart = vi.fn();
+        loadCart = vi.fn();
+    });
+
+    it('displays the product details correctly',()=>{
+    
         render(<Product product={product} loadCart={loadCart} />)
 
         //screen = check the fake web page , this toBeInTheDocument() is provided by jest-dom which we imported in setupTests.js and it checks if the element is present in the document/fake web page or not
@@ -47,19 +57,7 @@ describe('Product component',()=>{
 
     // next test user interactions like add to cart button
     it('adds a product to the cart',async ()=>{
-        const product = {
-            id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-            image: "images/products/athletic-cotton-socks-6-pairs.jpg",
-            name: "Black and Gray Athletic Cotton Socks - 6 Pairs",
-            rating: {
-            stars: 4.5,
-            count: 87
-            },
-            priceCents: 1090,
-            keywords: ["socks", "sports", "apparel"]
-        };
-        // mock function for loadCart vi.fn()=crates a fake fn that doesn't do anything
-        const loadCart = vi.fn();
+        
         render(<Product product={product} loadCart={loadCart} />)
 
         // earlier we installed @testing-library/user-event to simulate user events like clicking buttons , typing in input fields etc
