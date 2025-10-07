@@ -384,3 +384,57 @@ next test user interactions like add to cart button
 
 till now we have learnt to mock that doesn't do anything
 now we are gonna learn mock the impelementaion = make the mock do whatever we want 
+
+______________________________________________________________________________________________________________________________________
+lesson 9 : deploying to aws 
+
+service 1 : EC2 amazon elastic compute cloud (EC2)
+EC2 = rent a computer from AWS
+now we could buy a physical computer ourselves to host backend , but need to run this 24/7 , that's lot of work , so we use cloud services
+so EC2 = lets us rent a computer from aws , this is called infrastructure as a service (Iaas)
+
+EC2 just gives us a computer : 
+we still need to , install nodejs and connect it to the internet, upload our code 
+
+to solve this aws provides another service : elastic beanstalk
+you can think elastic beanstalk as a layer above ec2 and other services , it uses EC2 to rent a computer but also installs all the software we need 
+elastic beanstalk => also does all teh software setup for us. all we need to do is upload our code there. this is called platform as a service (Paas)
+==>after doing some configuration it will ask for role . role = gives elastic beanstalk permission to use other services in AWS
+==> instance types => lets us choose the size of the computer to rent from ec2
+
+elastic beanstalk is goign to : 
+  1. rent a computer using ec2
+  2. install nodejs and npm 
+  3. connect to the internet
+
+now that we have our own computer we need to put backend and frontend on the internet. 
+first we will put the backend.
+  we need to uplod it as a zip file . => npm run zip is the command for this we have already configured , get the zip file and upload it now.
+now let's put our frontend on the internet.
+  for this run npm run build ==> shortcut for vite build (refer package.json for these commands and how it works)
+  so now you will see dist folder : 
+    here there is index.html => html for our react website
+    assets folder -> js file , this is all our react code converted into normal js code (because browser only understands this) , also it minified (compressed) the code (shortened the var names and removed the extra spaces), because browser needst to download all the frontend code and run it , by minifing it makes our code run faster.
+    assets folder -> css file , same thing minified version
+
+so when we open the website , we need to download this react code from somewhere : 
+  there are two options : 
+  1. we can put it in github repo and use it from there 
+  2. or we alerady have one elastic beanstalk so use that.(backend computer). this simplifies the setup , we only need to setup one computer
+      -> so push this dist folder in backend code , i have added some code in ecommerce-backend so it works with this dist foler.
+      -> do another zip using npm run zip and upload this to elastic beanstalk
+
+_______so what is happening_______ : 
+first we put our backend on internet so backend is running
+now we put our frontend in the backend code.we setup some code in backend so when we visit the website using URL path : / , backend sends the react code to our computer
+now we have the react code running on our computer and it communicates with backend running on another computer(elastic beanstalk)
+so this is how a real world react app works.
+
+when developing : 
+we run frontend (port 3000) and backend (port 5173) on the same computer because it is easier.
+but when we put it on the internet , fronend code runs on our computer and backend runs on another (elastic beanstalk in this case.)
+
+now we can add a shortcut to make this process a little easier , 
+insted of manually putting dist folder to backend folder everytime we can maket this easier using vite.config.js file
+this saves us time.
+
