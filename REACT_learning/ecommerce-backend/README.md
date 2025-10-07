@@ -8,3 +8,8 @@
 
 ## this react website is hosted here you can access it.
 http://ecommerce-project-react-env.eba-xnjhqhse.ap-southeast-2.elasticbeanstalk.com/
+
+## now to run this 
+npm run zip 
+## after we will get the zip file upload it to aws and see if its working
+## for more info refer prerequisties.txt file and lesson 9

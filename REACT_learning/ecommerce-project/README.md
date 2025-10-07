@@ -13,3 +13,8 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## this react website is hosted here you can access it.
 http://ecommerce-project-react-env.eba-xnjhqhse.ap-southeast-2.elasticbeanstalk.com/
+
+## to host it first run 
+npm run build
+## this will move the code to ecommerce-backend
+## now refer to the readme file of ecommerce-backend for further instructions
