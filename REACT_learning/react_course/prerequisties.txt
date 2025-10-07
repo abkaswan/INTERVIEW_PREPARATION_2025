@@ -438,3 +438,56 @@ now we can add a shortcut to make this process a little easier ,
 insted of manually putting dist folder to backend folder everytime we can maket this easier using vite.config.js file
 this saves us time.
 
+_________now how to deploy react without a backend.
+if a react app doesn't have a backend , we can put the code on the internet directly.
+so try to deploy chatbot project for now then
+we can put this chatbot-project to any website that puts html website to the internet , like github pages. no backend knowledge required.
+
+____more config on aws side 
+change configuration->instance traffic and scaling -> capcity = load balanced
+load balancer => it adds another computer in front of our backend computer , this is called a load balancer.
+what does load balancer does -> if we have a really busy website , one computer might not be enough to handl all the requests
+so we can actually runt he bcakend on multiple computers and this load balancer will distribute this request across these computers , this allows the website to handle much more users.
+
+
+currently all our data like cart, order ,products all are saved in db in a file called database.sqlite
+in real world we put the database in anotehr computer , it lets us share the data between multiple backend computers
+so for this go to network and databse -> enable database toggle on -> add mysql and db.t3.micro 5gb , set password
+we alredy have some code in backend to connect to this database. so it should just work.
+so now the setup is like this : 
+
+out computer (runs frontend ) -> elastic beanstalk(load balancer + backend + database)
+
+set up a domain name now because the default is too long.
+domain name is like (mywebsite.com or youtube.com) = short name that makes it easy to access our website.
+
+purchase a domain name. 10$ or something.
+you can buy it from namecheap.com
+maybe purchase something like .com or .net because some doesn't work with normal browsers.
+
+setup the domain name in aws : route53 => manage our domain name in aws. click get started => click create hosted zones. => click get started. or go to hosted zones => create hosted zones (either works)
+currently it costs about 0.016$/day , can use it for free for few hours
+
+after clicking create hosted zones you will see => create record => configure your application by filling the information (toggle alias , do elastic beanstalk , region fill , take your app.)
+in namecheap => domain list , verify email, login again, ope manage , go to nameservers , click on custom dns in dropdown. 
+go back to hosted zones , you will see records in there see type NS (nameserver) select nameservers from there and copy it in nameservers in namecheap
+what this does is when we open the website namecheap is going to redirect to aws and then aws is going to elastic beanstalk or our app.
+
+after this you can go to http://yourwebsite.com
+not secure because of http => our website is not using encryption , for this to go away we need to setup ssl encryption 
+go to aws , search certificate manager -> request certificate -> fill domain name -> click request -> pending validation , click records in route 53 , click create records
+
+go to elastic beanstalk , instance traffic settings , edit -> add listener -> port 443 , protocol - https = secure connection => tjis jsut adds ssl certificate to load balancer so now any data sent to our website will be encrypted so go down click apply 
+now go to : https://yourwebsite.com not secure warning will be gone , you can also go to yourwebsite.com url directly also now.
+
+________how to delete the website compeltely : 
+so to delete it ; go to ecommerce-project-react-env , click actions -> terminate environment
+
+if you have done it for your website (for me i didin't do it) :
+after that go to route53 -> hosted zones -> click a record and cname record and delete records
+and then delete the hosted zones at top 
+
+go to certificate manager :
+lsit certificate : select it and type delte and click delete
+
+you can delete your entire account with ; click profile -- account -> close account -> after free tier passes you might wnat to do it.
