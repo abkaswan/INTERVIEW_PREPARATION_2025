@@ -2,7 +2,6 @@ import {it, expect, describe, vi, beforeEach} from 'vitest';
 import {render, screen, within} from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import {HomePage} from './HomePage';
-import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 
 // now for homepage we use axios.get to fetch the products from backend so we need to mock that too
