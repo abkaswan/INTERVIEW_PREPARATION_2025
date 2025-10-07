@@ -381,3 +381,6 @@ npm install --save-dev @testing-library/react@16.3.0 @testing-library/jest-dom@6
 also need to create some config files to test our components
 
 next test user interactions like add to cart button
+
+till now we have learnt to mock that doesn't do anything
+now we are gonna learn mock the impelementaion = make the mock do whatever we want 
