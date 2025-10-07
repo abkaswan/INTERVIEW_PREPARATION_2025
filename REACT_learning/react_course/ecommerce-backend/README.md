@@ -15,3 +15,6 @@ This is the backend for the [ecommerce-project](https://github.com/SuperSimpleDe
 
 ## Troubleshooting
 If you run into issues, see the [troubleshooting steps](troubleshooting.md).
+
+## this react website is hosted here you can access it.
+http://ecommerce-project-react-env.eba-xnjhqhse.ap-southeast-2.elasticbeanstalk.com/
