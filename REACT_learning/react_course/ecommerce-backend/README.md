@@ -6,8 +6,5 @@
 5. At the top menu of VSCode, click `Terminal` > `New Terminal`.
 6. In the Terminal, run `npm install`, and run `npm run dev`.
 
-## Troubleshooting
-If you run into issues, see the [troubleshooting steps](troubleshooting.md).
-
 ## this react website is hosted here you can access it.
 http://ecommerce-project-react-env.eba-xnjhqhse.ap-southeast-2.elasticbeanstalk.com/
