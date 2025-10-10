@@ -491,3 +491,13 @@ go to certificate manager :
 lsit certificate : select it and type delte and click delete
 
 you can delete your entire account with ; click profile -- account -> close account -> after free tier passes you might wnat to do it.
+
+
+go to aws using this : https://aws.amazon.com/ login to your account and configure things as you like .
+
+______________________________________________________________________________________________________________________________________
+lesson 10 : 
+
+new react features : 
+support for document metadata
+-->
