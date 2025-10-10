@@ -1,3 +1,7 @@
+Follow this tutorial for this ; 
+https://youtu.be/TtPXvEcE11E?si=em5dfKvydzsRDQRn
+React Tutorial Full Course - Beginner to Pro (React 19, 2025) -- channel name : SuperSimpleDev
+
 Need to know :
 1. basics of js
 2. basics of html
