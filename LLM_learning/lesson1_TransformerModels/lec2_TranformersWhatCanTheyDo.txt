@@ -1,0 +1,115 @@
+Link : https://huggingface.co/learn/llm-course/en/chapter1/3 -- for more details follow this page.
+this is the collab notebook for this chapter : 
+
+In this section, we will look at what Transformer models can do and use our first tool from the 🤗 Transformers library: the pipeline() function.
+
+Transformers are everywhere!
+Transformer models are used to solve all kinds of tasks across different modalities, including natural language processing (NLP), computer vision, audio processing, and more. 
+Here are some of the companies and organizations using Hugging Face and Transformer models, who also contribute back to the community by sharing their models:
+        Allen institute for AI
+        Facebook AI
+        Micorosoft
+        Grammarly
+        Google AI
+        Typeform
+        MusixMatch
+        Asteriod-team
+
+The 🤗 Transformers library provides the functionality to create and use those shared models. 
+The Model Hub contains millions of pretrained models that anyone can download and use. You can also upload your own models to the Hub!
+
+⚠️ The Hugging Face Hub is not limited to Transformer models. Anyone can share any kind of models or datasets they want! 
+Create a huggingface.co account to benefit from all available features!
+
+Before diving into how Transformer models work under the hood, let’s look at a few examples of how they can be used to solve some interesting NLP problems.
+
+The pipeline function :
+this is the most high-level api of the transformers library. It regroups together all the steps to go from raw texts to the usable predictions.
+the model used is at the core of pipeline , the pipeline also incluse all the necessary pre-processing (since the model does expect texts but numbers) as well as some post-processing to make the output of the model human readable.
+
+    pre-processing -> model -> post-processing
+the pipeline function returns and end-to-end object that performs an NLP task on one or several texts.
+
+1.  The first task we will try the pipleline API is on sentiment analysis. it classifies text as positive or negative.
+    You can pass multiple texts to the object returned by a pipeline to treat them together. (input will be passed as a batch to the model and we will get the output in the same order.)
+
+2.  Zero shot classification pipeline lets you select the label for classification. like sentence : "this is course about transformers library" so it will give labels like 'education', 'business' , 'politics' with their scores like 80,10,10 etc.
+3.  Text generation pipeline uses an input prompt to generate text. ( it will complete the given prompt but this is generated every time random)
+
+Till now we have used the pipeline to use default models associated to each task, but you can use any model that has been trained or fine-tuned for that particular task.
+For each task , you can search the model hub for various models you can use in the pipeline.
+
+try the text generation using another model like distilledgpt2 or something in your python notebook. You can also apply several arguements to the task like for text-generation you can give max_length , num_return_sequences.
+
+4.  Fill mask pipeline will predict missing words in a sentence.
+    pretraining objective of gpt2 was to generate text by guessing the next word in a sentence.
+    the fill mask pipeline was pretraining objective of BERT , which is to guess the value of masked words.
+
+5.  Another task transformers model NER can perform is to classify each word in a sentence instead of the sentence as a whole. One of the example is Named Entity Recognition => which is the task of identifying entities.
+    NER pipeline identifies entities such as persons , organizations and locations in a sentence.
+    grouped_entities = different words linked in the same entity such as Hugging and Face.
+
+6.  Another task available with pipleine API is extractive question answering.
+    the question-answering pipeline extracts answer to a question from a given context.
+
+7.  The summarization pipeline creates summaries of long texts.
+
+8.  The translation pipeline translate text from one language to another.
+The pipline supports most common NLP tasks out of box.
+
+
+Text pipelines ->
+    1. text-generation: Generate text from a prompt
+    2. text-classification: Classify text into predefined categories
+    3. summarization: Create a shorter version of a text while preserving key information
+    4. translation: Translate text from one language to another
+    5. zero-shot-classification: Classify text without prior training on specific labels
+    6. feature-extraction: Extract vector representations of text
+Image pipelines ->
+    1. image-to-text: Generate text descriptions of images
+    2. image-classification: Identify objects in an image
+    3. object-detection: Locate and identify objects in images
+Audio pipelines ->
+    1. automatic-speech-recognition: Convert speech to text
+    2. audio-classification: Classify audio into categories
+    3. text-to-speech: Convert text to spoken audio
+Multimodal pipelines ->
+    1. image-text-to-text: Respond to an image based on a text prompt
+
+
+==>Combining data from multiple sources
+One powerful application of Transformer models is their ability to combine and process data from multiple sources. 
+This is especially useful when you need to:
+1. Search across multiple databases or repositories
+2. Consolidate information from different formats (text, images, audio)
+3. Create a unified view of related information
+
+For example, you could build a system that:
+    ->Searches for information across databases in multiple modalities like text and image.
+    ->Combines results from different sources into a single coherent response. For example, from an audio file and text description.
+    ->Presents the most relevant information from a database of documents and metadata.
+
+Conclusion
+The pipelines shown in this chapter are mostly for demonstrative purposes. T
+hey were programmed for specific tasks and cannot perform variations of them. 
+In the next chapter, you’ll learn what’s inside a pipeline() function and how to customize its behavior.
+
+
+how to select any model from huggingface ; 
+
+most examples used the default model for the task at hand, but you can also choose a particular model from the Hub to use in a pipeline for a specific task — say, text generation. 
+Go to the Model Hub (https://huggingface.co/models) and click on the corresponding tag on the left to display only the supported models for that task. 
+You should get to a page like this one.(https://huggingface.co/models?pipeline_tag=text-generation)
+
+You can refine your search for a model by clicking on the language tags, and pick a model that will generate text in another language. 
+The Model Hub even contains checkpoints for multilingual models that support several languages.
+
+Once you select a model by clicking on it, you’ll see that there is a widget enabling you to try it directly online.
+This way you can quickly test the model’s capabilities before downloading it.
+
+Inference Providers -->
+All the models can be tested directly through your browser using the Inference Providers, which is available on the Hugging Face website. 
+(https://huggingface.co/docs/inference-providers/en/index)
+You can play with the model directly on this page by inputting custom text and watching the model process the input data.
+Inference Providers that powers the widget is also available as a paid product, which comes in handy if you need it for your workflows. 
+See the pricing page for more details. (https://huggingface.co/docs/inference-providers/en/pricing)
