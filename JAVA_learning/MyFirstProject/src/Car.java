@@ -5,6 +5,21 @@ public class Car {
     int year = 2025;
     double price = 58000.99;
     boolean isRunning = false;
+    String color;
+
+    Car(){
+
+    }
+    Car(String make,String model, int year,String color){
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.color = color;
+    }
+    @Override
+    public String toString(){
+        return this.color+" "+this.year+" "+this.make+" "+this.model;
+    }
 
     void start(){
         isRunning = true;
