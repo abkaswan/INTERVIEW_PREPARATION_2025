@@ -188,7 +188,83 @@ public class OopsIntro {
         //                 "MORPH" = "SHAPE"
         //                 Objects can identify as other objects.
         //                 Objects can be treated as objects of a common superclass.
-        
+        Truck truck = new Truck();
+        Bike bike = new Bike();
+        Boat boat = new Boat();
+
+        truck.go();
+        bike.go();
+        boat.go();
+
+        System.out.println("*************************");
+        System.out.println("Another way to do this : ");
+        System.out.println("*************************");
+
+        // below method won't work because bike and boat are not same class as truck
+        // Truck[] trucks = {truck,bike,boat};
+
+        // but we can use vehicle instead
+        Vehicle[] vehicles = {truck,bike,boat};
+        for(Vehicle vehicle : vehicles){
+            vehicle.go();
+        }
+        // note : this same thing will work with interfaces also , i mean polymorphism can be done using interfaces also. try it convert Vehicle to Interface instead of abstract class.
+
+        System.out.println("------------------------ Runtime POLYMORPHISM (dynamic polymorphism)  --------------------------");
+        // Runtime polymorphism = when the method that gets executed is decided at runtime based on the actual type of the object.
+        Scanner scanner = new Scanner(System.in);
+
+        Character character;
+        System.out.print("Would you like a warrior or a Mage? (1 = warrior, 2 = mage): ");
+        int choice = scanner.nextInt();
+
+        if(choice == 1){
+            character = new Warrior();
+            character.attack();
+        }
+        else if(choice == 2){
+            character = new Mage();
+            character.attack();
+        }
+
+        System.out.println("------------------------ GETTERS and SETTERS --------------------------");
+        // they help protect object data and rules for accessing or modifying them.
+        // GETTERS = methods that make a field readable.
+        // SETTERS = methods that make a field writeable.
+
+        BankAccount bankAccount = new BankAccount("ABC12345",23000);
+        // but we can change these below var of class if they are not private
+        // bankAccount.balance = 50000;
+
+        // to prevent this and still change them if needed we use getter and setters
+
+        System.out.println(bankAccount.getAccountNumber()+" "+bankAccount.getBalance());
+        bankAccount.setAccountNumber("B23439");
+        bankAccount.setBalance(40000);
+        System.out.println(bankAccount.getAccountNumber()+" "+bankAccount.getBalance());
+
+        // if you don't want an attribute to be writable you can also add final keyword liek (private final String accountNumber) for extra measure
+
+        System.out.println("------------------------  Aggregation --------------------------");
+        // Aggregation = Represents a "has-a" relationship between objects.
+        //               One Object contains another object as part of its structure,
+        //               but the contained object/s can exist independently.
+
+        // here even if we delete the library the books object is independent and won't affect due to the deletion of library this is aggregation but for composition this is slightly different.
+        Book book1 = new Book("The fellowship of the ring",423);
+        Book book2 = new Book("The Two towers",358);
+        Book book3 = new Book("The Return of the king",416);
+
+        Book[] books = {book1,book2,book3};
+
+        Library library = new Library("NYC public library",1897,books);
+        library.displayInfo();
+
+        System.out.println("------------------------  Composition --------------------------");
+        // Composition = Represents a "part-of" relationship between objects.
+        //               For example, an Engine is "part of" a car.
+        //               Allows complex objects to be constructed from smaller objects.
+
 
     }
 
