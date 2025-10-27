@@ -1,0 +1,17 @@
+Link : https://youtu.be/bwt09KXDH94?si=9jXsusB-40UvtG23
+
+____________________________________________________________________________________________________________________________________________________________
+
+so typically a introduction like what is system design.
+
+lets say there is : 
+social media like facebook , i make request to that social media, in exchange i expect data.
+
+client (me and many other users) ----------request (like profile pics , store infos , past posts) --------> facebook (application server/s , could be more than one) ----------------> database/s(separately store the data, could be more than one)
+
+where do we store the data : 
+1. RAM (temporary storage of data) : where we do computaion like for loop , coding , technically a lot of that;s going in cpu registers but eventually it gets stored with variables and RAM
+2. hard drive (permament) : so when we are saving the data for companies like facebook we would need to do it in hard drives because server can shut down at any given time.
+
+->User requests to the application servers also typically becomes a bottleneck to the performance of our website before the actual accessing of our data.
+->System design is all about how to retrieve this data faster and make it mroe reliable , like if one instance or database fails then how can we recover from it and how to transition smoothly to another database

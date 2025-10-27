@@ -1,0 +1,48 @@
+Topic : database indexes : what do they do ?
+Link : https://youtu.be/LzNdvuj3a5M?si=ICJl-xxUsTG0T_D4
+
+This Systems Design Interview video explores database internals and optimization. Learn how data is physically stored on a hard drive to improve read and write speeds. The instructor uses examples to illustrate the impact of data organization on performance.
+____________________________________________________________________________________________________________________________________________________________
+
+lets go through this -->
+
+1. persistently -> we want the data to be stored persistently. 
+2. hard drive -> RAM doesn't store data between computer turning on/off.
+3. In a database -> harddrive is in a database.
+
+more in depth for harddrive : 
+->Imagine one site where it saves names of people and shoe sizes 
+->Every time you load up the site it'll show you all those people and shoe sizes.
+
+JORDAN - 18
+DONALS - 7
+Shaq - 24
+
+Q : find rows where name = JORDAN
+Ans : 
+O(n) time complexity for read -- imagine reading shaq value
+O(n) time complexity for write again. -- imagine editing shaq value to 27
+
+Q : slightly better design ?
+Ans : 
+PROPOSAL is this -> now instead of going to the table and editing the shoe size for each person , what if we add new name with different shoe size like 
+DONALS = 6
+and then read the table from bottom up so that we read the new updated value and not the old DONALS value.
+
+O(n) time complexity for read 
+O(1) time complexity for write
+
+Now read speed will be more because we are entering a lot more new rows , but most of the time we care more about the read speed and O(n) read speed is not acceptable.
+sometimes it's ok if you aren't trying to optimise reads. but most of the time if you are reading from millions of rows this is not ok.
+
+ex : facebook news feed , to do this go through entire db row by row not good.
+impractical and need to organize the data.
+
+---->indexing : organize the data.
+1. finding rows with specific key =>
+    finding specific rows with the name that matched the parameter provided but it could be names , maybe we care about finding a row with specific shoe size -- need to do it faster without linear scan.
+2. another possiblity is performing RANGE QUERY , ex : Show rows with names between A-B => return all of them
+so for these are some cases we care about optmising them even if we take some panelity in write ops.
+
+indexing does this : read speeds go up , write speeds go down. (for specific key)
+we have database index for one field example like names in that table , or you can have multiple indexes or index on multiple fields like (on both name and shoe size -- one index)

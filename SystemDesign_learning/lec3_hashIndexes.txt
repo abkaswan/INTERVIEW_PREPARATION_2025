@@ -1,0 +1,8 @@
+Topic : How do hash indexes work ? 
+Link : https://youtu.be/I1wQsY-Nh_k?si=0r9nDiss2Vh595nf
+
+This systems design tutorial explains hash indexes, building upon the concept of hash maps. The video explores their advantages, like O(1) read/write speeds, and disadvantages, including limitations regarding range queries and memory constraints. 
+A write-ahead log ensures data durability.
+
+____________________________________________________________________________________________________________________________________________________________
+
