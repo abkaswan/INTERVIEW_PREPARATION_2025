@@ -6,15 +6,26 @@ public class Car {
     double price = 58000.99;
     boolean isRunning = false;
     String color;
+    Engine engine;
 
     Car(){
 
+    }
+    // so this way when constructing a car obj we will also be constructing a engine object.
+    Car(String model,int year,String engineType){
+        this.model = model;
+        this.year = year;
+        this.engine = new Engine(engineType);
     }
     Car(String make,String model, int year,String color){
         this.make = make;
         this.model = model;
         this.year = year;
         this.color = color;
+    }
+    void startCompo(){
+        this.engine.start();
+        System.out.println("The "+this.model+" is running.");
     }
     @Override
     public String toString(){

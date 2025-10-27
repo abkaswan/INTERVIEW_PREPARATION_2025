@@ -1,3 +1,7 @@
+import java.net.CookieHandler;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class OopsIntro {
@@ -265,7 +269,57 @@ public class OopsIntro {
         //               For example, an Engine is "part of" a car.
         //               Allows complex objects to be constructed from smaller objects.
 
+        Car carForCompo = new Car("Corvette",2025,"V8");
+        System.out.println(carForCompo.model+" "+carForCompo.year+" "+carForCompo.engine);
+        // so instead of memory address for engine obj if we want type of engine we access it like this ;
+        System.out.println(carForCompo.model+" "+carForCompo.year+" "+carForCompo.engine.type);
+        carForCompo.startCompo();
 
+        System.out.println("------------------------  Wrapper Classes  --------------------------");
+        // Wrapper Classes = Allow primitive values (int, char , double, boolean)
+        //                   to be used as objects. "Wrap them in an object"
+        //                   Generally, don't wrap primitive unless you need an object.
+        //                   Allows use of Collections Framework and static Utility Methods.
+
+        // depreciated method
+        // int a = 123;
+        Integer a = new Integer(123);
+        Double b = new Double(3.14);
+        boolean d = new Boolean(true);
+        // autoboxing method
+        Integer a2 = 123;
+        Double b2 = 3.14;
+        Boolean d2 = true;
+
+        // unboxing
+        int x = a2;
+
+        // convert any data primitive data tye to string
+        String a3 = Integer.toString(123);
+        String b3 = Double.toString(3.14);
+        String d3 = Boolean.toString(true);
+        String e = a3+b3+d3;
+        System.out.println(e);
+
+        // convert any sting to primitive data type
+        int a4 = Integer.parseInt("123");
+        double b4 =  Double.parseDouble("3.14");
+        // char doesn't have parseCharacter method so use charAt for this
+        char c4 = "Pizza".charAt(0);
+        boolean d4 = Boolean.parseBoolean("true");
+
+        // some related to character
+        char letter = 'b';
+        // System.out.println(Character.isLetter(letter));
+        // System.out.println(Character.isUpperCase(letter));
+
+        System.out.println("------------------------  Array lists  --------------------------");
+        // ArrayList = a resizable array that stores objects (autoboxing).
+        //             Arrays are fixed in size, but ArrayLists can change.
+        ArrayLists arrayList = new ArrayLists();
+        arrayList.run();
+
+        scanner.close();
     }
 
 }

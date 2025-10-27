@@ -1,3 +1,5 @@
+import java.sql.Time;
+import java.util.Date;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
@@ -136,8 +138,73 @@ public class Main {
         // slotMachine.play();
 
         // OOPs - OBJECT ORIENTED Programming
-        OopsIntro oopsIntro = new OopsIntro();
-        oopsIntro.run();
+        // OopsIntro oopsIntro = new OopsIntro();
+        // oopsIntro.run();
+
+        // Exception
+        // Exception =  An event that interrupts the normal flow of a program
+        //              (Dividing by zero, file not found , mismatch input type)
+        //              Surround any dangerous code with a try{} block
+        //              try{},catch{}, finally{}
+        // Exception exception = new Exception();
+        // exception.run();
+
+        // Write files
+        // WriteFiles writeFiles = new WriteFiles();
+        // writeFiles.run();
+
+        // Read files
+        // ReadFiles readFiles = new ReadFiles();
+        // readFiles.run();
+
+        // How to play AUDIO with java(.wav, .au, .aiff) -- not compatible with mp3 files but you can convert them to given formats online, we can do mp3 directly also but need external lib or framwork like javaFx
+        // MusicPlayer musicPlayer = new MusicPlayer();
+        // musicPlayer.play();
+
+        // JAVA HANGMAN GAME
+        // HangMan hangMan = new HangMan();
+        // hangMan.play();
+
+        // Dates & Times
+        // DatesTimes datesTimes = new DatesTimes();
+        // datesTimes.play();
+
+        // Annonymous class
+        // Annonymous annonymous = new Annonymous();
+        // annonymous.run();
+
+        // Timer and TimerTask
+        // TimerTasks timerTasks = new TimerTasks();
+        // timerTasks.wow();
+
+        // Countdown Timer
+        // CountDownTimer countDownTimer = new CountDownTimer();
+        // countDownTimer.tick();
+
+        // Generics
+        // Generics generics = new Generics();
+        // generics.run();
+
+        // Hashmaps
+        // Hashmaps hashmaps = new Hashmaps();
+        // hashmaps.run();
+
+        // Enums
+        // Enums enums = new Enums();
+        // enums.play();
+
+        // Threading
+        // Threading threading = new Threading();
+        // threading.run();
+
+        // MultiThreading
+        // MultiThreading multiThreading = new MultiThreading();
+        // multiThreading.fun();
+
+        // JAVA ALARM CLOCK
+        ImplementAlarm implementAlarm = new ImplementAlarm();
+        implementAlarm.ring();
+
 
     }
 }
