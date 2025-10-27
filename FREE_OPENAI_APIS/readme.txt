@@ -63,6 +63,11 @@ At last the final instructions :
 how to run , run below two commands: 
 chmod +x setup_and_run.sh
 ./setup_and_run.sh
+
+_____________________________________
+Edits you can do : 
+-we can change SEARCH_PATTERNS if you have any more ideas.
+-You can change pagination like instead of 10 how many pages you want to go through.
 _____________________________________
 
 This is just for educational purpose.
