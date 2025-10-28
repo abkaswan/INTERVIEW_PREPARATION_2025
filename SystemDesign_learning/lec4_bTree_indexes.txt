@@ -1,0 +1,65 @@
+Topic name : How do b-tree indexes work ? 
+Link : https://youtu.be/Z2OaqmxiH20?si=2HDn7u7aNM1BpAi6
+____________________________________________________________________________________________________________________________________________________________
+How do B-tree indexes work?
+
+b-tree is another way to do indexes , entirely on disk so less downsides compared to hash indexes.
+where we don't have to keep all our keys in memory and worry about durability for most cases.
+
+b-tree is basically this structure , it basically gives the ranges of all the keys and gives references to other locations on disk that we have to traverse to in order to go ahead and find the row we want.
+
+let's imagine we have bunch of names and the scores that they got on a math test.
+so basically all the rows from a to l to z, then we have further reference for a to e to l , l to q to z
+and we can find the rows we want accordingly inside.
+
+                ┌───────────────────────────────┐
+                │     A   |  REF  |   L  | REF |   Z   │
+                └─────────┬────────┬────────────┘
+                          │                 │
+                          │                 │
+         ┌────────────────┘                 └────────────────┐
+         │                                                   │
+┌──────────────────────────┐                     ┌──────────────────────────┐
+│    A  | REF |  E  | REF |  L   │               │   L  | REF |  Q  | REF |   Z  │
+└───────┬────────┬────────┬──────┘               └──────────────────────────┘
+        │        │
+        │        │
+        │        │
+        ▼        ▼
+┌───────────────────────────────┐
+│ Edward | 80 | Gordon | 95     │
+└───────────────────────────────┘
+Explanation (matching your image):
+The root node has keys: A, L, Z
+Each REF (reference pointer) points to the next lower level of the tree.
+Going from A → E → L path, we reach the leaf node that stores:
+Edward | 80 | Gordon | 95
+
+
+These are the actual data records.
+->This b-tree going to stay balanced.(all left and right subtree of every node only differ at most 1 in height.)
+-> these page sizes are relatively preety big , typically IN KBs , we can have tree that ecompasses tons of key and values and also staying relatively short , jumping in few places compared to hash indexes.
+-> both reading and updating , go through the tree.
+-> for writes , refer below image bro : 
+
+| Situation            | What happens                                     | Example                                                 |
+| -------------------- | ------------------------------------------------ | ------------------------------------------------------- |
+| **Leaf has space**   | Insert key directly in sorted order              | Insert `Betty,65` → `[Betty, Edward, Gordon]`           |
+| **Leaf is full**     | Split the leaf, promote the middle key to parent | `[Edward, Gordon]` + `Betty` → split → promote `Edward` |
+| **Parent also full** | Parent splits too → might ripple up              | Can create a **new root** if needed                     |
+
+so we might need to split these pages if it gets too big, so that these tree remains balanced.(for image refer to the youtube video.)
+
+Issue : 
+B-tree dies ? computer turns off mid b-tree udpate , like we have created two references but we haven't udpated the references in time ? well as per the previous lesson we can have sequential WAL (write ahead log).
+
+Summary : 
+self balancing tree on disk
+-> will be relatively slow , primary amount of data of indexes are written in disk.
+-> b-tree relatively is not bad , only couple of traversals on disk
+-> main advantage over hash indexes is two-fold , not in memory so we can have much bigger size in our dataset. we can also do range queries ( don't have to do bunch of different reads data is effectively sorted through this b-tree )
+
+cons :
+-> writes are not super fast for the reasons we discussed. you may have to do bunch of writes not only to WAL but also bottom of the tree and they may have to traverse all the way back up the tree basically switching all of these references on disks so that can take a while.
+
+next lesson we will disk more indexes that will have similr read speeds to b-trees and ability to do range queries also improve the write speeds.

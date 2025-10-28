@@ -6,3 +6,55 @@ A write-ahead log ensures data durability.
 
 ____________________________________________________________________________________________________________________________________________________________
 
+why do we need hash indexes : 
+->O(n) reads
+->go through all the rows
+
+hash map => 
+   "jordan" ------> hash functions --------->  in some range(1,10) spit out a number ex ; 4
+   it's also possible it might do for two names it might spoit out the same number.
+premise of hash map is that we take our hash map and key , get the value v and we put it at the index v of the array.
+    h("key") => value v
+so by doing this we can check it in constant time O(1) in hash map any value
+
+another issue : what if two things are hashed to the same index : 
+1. chaining  --> use linked list to connect all of them
+2. probing --> use probing where we look for next available spot in hashmap and put it there. it might ruin the constant tc of it but if you do some math using advertised tc and something called load factor you can prove that it is still on avg constant tc.
+
+HASH INDEX : general gist is just use the hash map. =>
+    ->hash map -> easily scan for key
+    ->"Jordan" : address (0*0111) or actual rows here
+    ->will be O(1) both on read and writes
+
+issues : 
+    -> hash maps are bad on disk. entire point of hash map is distribute elements evenly. so performance is preety poor in hashmaps because we're jumping around all over thsi metallic disk and as a result it just doesn't work really well.
+    -> tha;s why hash indexes are always kept in memory (RAM).
+        --> RAM is expensive , so there's less of it. 
+        --> keys have to fit on the RAM.
+    so RAM is not durable. For our db this would be really terrible if we loose data all the time.
+    NOTE : The above line assumes that the index holds the actual rows as opposed to just their locatoin on disk, otherwise just the index would be lost.
+a way to keep the data , so we don't lose it everytime the ocmputer is shut down ; 
+
+WAL (write ahead log):
+    ->It's just a list every single time of all the writes and updates you are making to the database.
+    ex : change size of row with "Jordan" to 10.
+    NOTE : if the index is just holding the locations of rows on disk, the WAL only needs to contain when we add new rows (e.g. row with the name jordan at 0*001)
+    -> WAL is stored on disk. compeltely writing sequentially on disk. that's why Writes are relatively fast. 
+    -> We have durability. Recreate our hash index by replaying all the changes. i.e. repopulate hash index.
+    -> it might make things little slower because we are writing for WAL also now but relatively still avg O(1).
+
+=> first we write WAL then change the hash index always. remember.
+Last issue : 
+
+No range queries. 
+=> range queries is all rows with names between A and B. we can check the name A in O(1) right 
+->But to check all the rows with names between A and B. we have two options : 
+    --> Either loop through every possible name between A and B and check that in hashmap => not feasible infinite names are there.
+    --> OR iterate through all the indexes. => O(n) this is also not good because this is the problem we were trying to solve.
+
+need to think better solutions for range queries ; 
+ binary trees are good. you can perform range queries really easily. The challenge is only fetching the rows we need (db can be huge) : basically figure out the paths for the bounds of the range query then run a dfs/bfs from the root making sure to stay within those bounds. But read and writes will be O(logn) in this case.
+
+All in all in hash map : 
+PROS -> O(1) reads and writes
+CONS -> keys must fit in the memory. NO range queries.
