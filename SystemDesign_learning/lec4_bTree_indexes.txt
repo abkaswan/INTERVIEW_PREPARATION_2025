@@ -63,3 +63,7 @@ cons :
 -> writes are not super fast for the reasons we discussed. you may have to do bunch of writes not only to WAL but also bottom of the tree and they may have to traverse all the way back up the tree basically switching all of these references on disks so that can take a while.
 
 next lesson we will disk more indexes that will have similr read speeds to b-trees and ability to do range queries also improve the write speeds.
+
+
+Read: O(log n) — traverse a few disk pages to reach the leaf.
+Write: O(log n) — may require splits and reference updates up to the root.

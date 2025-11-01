@@ -1,0 +1,51 @@
+video title : LSM Tree + SSTable database indexes
+link : https://youtu.be/ciGAVER_erw?si=Wz8lpThvv_dKIwMg
+
+____________________________________________________________________________________________________________________________________________________________
+
+LSM Tree : 
+An LSM (Log-Structured Merge) tree is a database indexing approach developed after B-trees. 
+Its core idea is to use a balanced in-memory search tree (for example, an AVL, red-black, or B-tree variant) as the write-target and periodically flush that structure to disk as sorted, immutable files called SSTables.
+
+The in-memory structure—often called a memtable—is a balanced binary search tree. Because it is balanced, single-key reads and writes into the memtable run in $O(\log n)$ time. Working in memory keeps these operations fast compared to disk-based structures.
+
+Two practical issues arise from keeping the index in memory. 
+    First, memory alone offers no durability: a crash would lose recent updates. 
+    Second, memory capacity limits how many keys can be actively indexed in RAM.
+
+Durability is normally provided by a write-ahead log (WAL): updates are appended sequentially on disk before being applied to the memtable. 
+Sequential writes on disk are fast, and the WAL enables recovery by replaying logged operations after a crash. The WAL trades slightly higher write cost for durability.
+
+SSTable : 
+When the memtable grows past a configured size threshold, 
+it is flushed to disk: the balanced search tree is traversed in-order, producing a sorted list of key-value pairs. 
+An in-order traversal of a binary search tree runs in linear time $$O(n)$$, so the conversion to a sorted file is efficient. 
+The resulting on-disk file is an SSTable; SSTables are immutable once written.
+
+The database maintains multiple SSTables on disk, each representing a past memtable flush. 
+
+=>Reads inside LSM Tree and SSTable : 
+Reads first consult the memtable; if the key is not present there, the system searches SSTables in reverse chronological order (most recent first).
+Because SSTables are sorted, a binary search inside an SSTable runs in $O(\log n)$.
+
+=>Delete inside LSM TREE and SSTable : 
+Deletes are handled with tombstones: a delete is recorded as a special marker (a tombstone) in the memtable and later persisted in an SSTable. 
+When the same key appears in multiple SSTables, the most recent entry (including a tombstone) determines the current state.
+
+=>Opitmisations :
+Scanning every SSTable during reads would be expensive, so common optimizations are used. 
+->A sparse index stores some SSTable keys and their disk offsets, narrowing the binary-search range and reducing random disk reads. 
+->A Bloom filter is a compact, probabilistic structure that quickly answers “definitely not present” or “possibly present”; SSTables that a Bloom filter rules out can be skipped entirely.
+
+SSTables accumulate duplicate or deleted entries over time. Compaction is a background process that merges multiple SSTables into a single sorted SSTable, removing overwritten values and tombstones. 
+Compaction is essentially merging sorted lists and runs in linear time relative to the input sizes, which reclaims disk space and reduces future read work.
+
+Summary comparison of index types:
+- Hash index: in-memory hash maps provide very fast single-key reads/writes, approximately $O(1)$, but do not support efficient range queries and require enough RAM to hold keys.
+- B-tree: disk-friendly, supports efficient range queries and locality of related keys on disk; reads and range queries are fast, while writes incur more disk I/O and are slower than in-memory structures.
+Read: O(log n) — traverse a few disk pages to reach the leaf.
+Write: O(log n) — may require splits and reference updates up to the root.
+
+- LSM tree: a hybrid approach—writes are fast (in-memory memtable + WAL) and the system supports large datasets on disk. Range queries are supported via sorted SSTables but can be slower than a single B-tree lookup because multiple SSTables may be examined. Background compaction reduces storage waste at the cost of CPU and I/O. 
+Read: O(log n × k) — search memtable (log n) and up to k SSTables (each log n, often reduced using Bloom filters).
+Write: O(log n) amortized — insert into in-memory tree (log n) and sequentially append to WAL; periodic flush/compaction adds background O(n) work
